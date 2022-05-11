@@ -30,3 +30,9 @@ def post_notebook(id):
 
         return {'notebook': notebook.to_dict()}
     return form.errors
+
+
+@notebook_routes.route('/single/<int:id>')
+def get_one(id):
+    notebook = Notebooks.query.get(id)
+    return {'notebook': notebook.to_dict()}

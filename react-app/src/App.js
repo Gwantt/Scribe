@@ -10,6 +10,7 @@ import User from './components/User';
 import { authenticate } from './store/session';
 import Notebooks from './components/Notebooks';
 import NotebookForm from './components/NotebookForm';
+import SingleNotebook from './components/SingleNotebook';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -48,6 +49,9 @@ function App() {
         </ProtectedRoute>
         <Route exact path='/new-notebook'>
           <NotebookForm />
+        </Route>
+        <Route exact path='/notebook/:id'>
+          <SingleNotebook />
         </Route>
       </Switch>
     </BrowserRouter>

@@ -1,6 +1,9 @@
 const LOAD = 'notebooks/LOAD'
 const CREATE = 'notebooks/CREATE'
 const LOAD_ONE = 'notebooks/LOAD_ONE'
+const DELETE = 'notebooks/DELETE'
+const UPDATE = 'notebooks/UPDATE'
+
 
 const load = (notebooks) => ({
     type: LOAD,
@@ -17,6 +20,15 @@ const loadOne = notebook => ({
     notebook
 })
 
+const deleteOne = id => ({
+    type: DELETE,
+    id
+})
+
+const updateOne = notebook => ({
+    type: UPDATE,
+    notebook
+})
 
 export const loadAllNotebooksThunk = (id) => async dispatch => {
     const res = await fetch(`/api/notebooks/${id}`, {
@@ -49,7 +61,6 @@ export const createNotebookThunk = (id, payload) => async dispatch => {
 }
 
 export const loadOneThunk = id => async dispatch => {
-    console.log('in the thunk')
     const res = await fetch(`/api/notebooks/single/${id}`, {
         headers: {
             'Content-Type': 'application/json'
@@ -58,9 +69,31 @@ export const loadOneThunk = id => async dispatch => {
 
     if(res.ok) {
         const notebook = await res.json()
-        console.log(notebook, 'notebook from thunk')
         dispatch(loadOne(notebook))
-        return notebook;
+    }
+}
+
+export const deleteNotebookThunk = id => async dispatch => {
+    const res = await fetch(`/api/notebooks/delete/${id}`, {
+        method: 'DELETE',
+    })
+    if(res.ok) {
+        dispatch(deleteOne(id))
+    }
+}
+
+export const updateNotebookThunk = (id, payload) => async dispatch => {
+    const res = await fetch(`/api/notebooks/update/${id}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    })
+
+    if(res.ok) {
+        const updatedNotebook = await res.json()
+        dispatch(updateOne(updatedNotebook))
     }
 }
 
@@ -94,6 +127,15 @@ const notebookReducer = (state = {}, action) => {
             const singleBook = {}
             singleBook[action.notebook.notebook.id] = action.notebook.notebook;
             return {...state, ...singleBook}
+        case DELETE:
+            const deleteState = {...state}
+            delete deleteState[action.id]
+            return deleteState
+
+        case UPDATE:
+            const updateState = { ...state };
+            updateState[action.notebook.id] = action.notebook;
+            return updateState
         default:
             return state
     }

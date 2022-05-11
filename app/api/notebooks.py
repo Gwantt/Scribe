@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, session, request
 from app.models import db, User, Notebooks, Notes
 from flask_login import current_user
-from app.forms import NotebookForm
+from app.forms import NotebookForm, EditNotebookForm
 
 notebook_routes = Blueprint('notebooks', __name__)
 
@@ -36,3 +36,29 @@ def post_notebook(id):
 def get_one(id):
     notebook = Notebooks.query.get(id)
     return {'notebook': notebook.to_dict()}
+
+
+@notebook_routes.route('/delete/<int:id>', methods=['DELETE'])
+def delete_notebook(id):
+    notebook = Notebooks.query.get(id)
+    db.session.delete(notebook)
+    db.session.commit()
+    return notebook.to_dict()
+
+
+@notebook_routes.route('/update/<int:id>', methods=['POST'])
+def update_notebook(id):
+    notebook = Notebooks.query.get(id)
+    form = EditNotebookForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        data = form.data
+
+        notebook.title=data['title']
+        notebook.description=data['description']
+
+        db.session.commit()
+
+        return notebook.to_dict()
+
+    return form.errors

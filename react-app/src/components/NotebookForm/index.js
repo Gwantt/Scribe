@@ -23,6 +23,7 @@ const NotebookForm = () => {
         const errors = []
 
         if(title.length < 1 || title.length > 30) errors.push('Title must be longer than 1, but shorter than 30 characters')
+        if(!description) errors.push('Please enter a description')
         if(description.length > 100) errors.push('Description must be less than 100 characters')
 
 

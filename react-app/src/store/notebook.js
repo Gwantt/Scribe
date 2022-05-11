@@ -1,5 +1,6 @@
 const LOAD = 'notebooks/LOAD'
 const CREATE = 'notebooks/CREATE'
+const LOAD_ONE = 'notebooks/LOAD_ONE'
 
 const load = (notebooks) => ({
     type: LOAD,
@@ -8,6 +9,11 @@ const load = (notebooks) => ({
 
 const create = notebook => ({
     type: CREATE,
+    notebook
+})
+
+const loadOne = notebook => ({
+    type: LOAD_ONE,
     notebook
 })
 
@@ -42,6 +48,21 @@ export const createNotebookThunk = (id, payload) => async dispatch => {
     }
 }
 
+export const loadOneThunk = id => async dispatch => {
+    console.log('in the thunk')
+    const res = await fetch(`/api/notebooks/single/${id}`, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+
+    if(res.ok) {
+        const notebook = await res.json()
+        console.log(notebook, 'notebook from thunk')
+        dispatch(loadOne(notebook))
+        return notebook;
+    }
+}
 
 const notebookReducer = (state = {}, action) => {
     switch (action.type) {
@@ -69,6 +90,10 @@ const notebookReducer = (state = {}, action) => {
                     ...action.notebook.notebook
                 }
             }
+        case LOAD_ONE:
+            const singleBook = {}
+            singleBook[action.notebook.notebook.id] = action.notebook.notebook;
+            return {...state, ...singleBook}
         default:
             return state
     }

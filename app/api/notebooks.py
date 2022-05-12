@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, session, request
 from app.models import db, User, Notebooks, Notes
 from flask_login import current_user
-from app.forms import NotebookForm, EditNotebookForm
+from app.forms import NotebookForm, EditNotebookForm, CreatingNotesForm
 
 notebook_routes = Blueprint('notebooks', __name__)
 
@@ -62,3 +62,18 @@ def update_notebook(id):
         return notebook.to_dict()
 
     return form.errors
+
+@notebook_routes.route('/<int:id/notes', methods=['GET', 'POST'])
+def notebooks_notes(id):
+    if request.method == "GET":
+        notebook = Notebooks.query.get(id)
+        notes = notebook.notes
+        return {'notes': [note.to_dict() for note in notes]}
+
+    if request.method == "POST":
+        form = CreatingNotesForm()
+
+        if form.validate_on_submit():
+            note = Notes(
+                
+            )

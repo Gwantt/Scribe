@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import * as notebookActions from '../../store/notebook'
+import reducer from "../../store/session";
 
 const SingleNotebook = () => {
     const dispatch = useDispatch()
@@ -36,7 +37,7 @@ const SingleNotebook = () => {
         const errors = []
         if (title.length < 1 || title.length > 30) errors.push('Title must be shorter than 30 characters but longer than 1 character')
         if (description.length > 100) errors.push('Description must be less than 100 characters')
-
+        if (description.length < 1) errors.push("Must have a description")
         if (errors.length) {
             setErrors(errors)
             return
@@ -63,16 +64,21 @@ const SingleNotebook = () => {
         <>
                 <>
                     <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', width: 'min-content', border: 'none' }}>
+                        {errors && errors.map((error, idx) => (
+                            <li style={{color:'red', listStyle:'none'}}key={idx}>{error}</li>
+                        ))}
                         <input
+                            spellCheck='false'
                             type="input"
-                            style={{ height: '100px', fontSize: '40px', border: 'none', focus: 'none', textDecoration: 'none', fontWeight: '600', border:'none', outline:'none', background:'transparent' }}
+                            style={{ color:'white', height: '100px', fontSize: '40px', border: 'none', focus: 'none', textDecoration: 'none', fontWeight: '600', border:'none', outline:'none', background:'transparent' }}
                             value={title}
                             onChange={e => setTitle(e.target.value)}
                         />
                         <br>
                         </br>
                         <input
-                            style={{ border: 'none', width:'500px', background:'transparent' }}
+                            spellCheck='false'
+                            style={{ color:'white', border: 'none', width:'500px', background:'transparent' }}
                             value={description}
                             onChange={e => setDescription(e.target.value)}
                         />
@@ -84,6 +90,7 @@ const SingleNotebook = () => {
                         dispatch(notebookActions.deleteNotebookThunk(id))
                         history.push('/')
                     }}>Delete Notebook</button>
+                    <button onClick={() => dispatch(noteAction.createNoteThunk())}>New Note</button>
                 </>
         </>
     )

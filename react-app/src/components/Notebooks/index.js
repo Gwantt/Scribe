@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from "react-router-dom";
 import * as notebookActions from '../../store/notebook'
 import './notebooks.css'
+import { AiFillPlusCircle } from 'react-icons/ai'
 
 const Notebooks = () => {
     const dispatch = useDispatch()
@@ -34,7 +35,10 @@ const Notebooks = () => {
                             </div>
                         </a>
                     ))}
-                    <button className="notebookCard" onClick={() => history.push('/new-notebook')}>Create New Notebook</button>
+                    <button style={{display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}className="notebookCard" onClick={() => history.push('/new-notebook')}>
+                        Create New Notebook
+                        <AiFillPlusCircle style={{fontSize:'40px', margin:'16px'}}/>
+                    </button>
                 </div>
             </article>
         </div>

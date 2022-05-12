@@ -12,13 +12,13 @@ const load = notes => ({
 })
 
 
-export const createNoteThunk = id => async dispatch => {
+export const createNoteThunk = (id, payload) => async dispatch => {
     const res = fetch(`/api/notebooks/${id}/notes`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(id)
+        body: JSON.stringify(payload)
     })
 
     if(res.ok) {

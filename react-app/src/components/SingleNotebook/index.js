@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import * as notebookActions from '../../store/notebook'
+import * as noteAction from '../../store/notes'
 import reducer from "../../store/session";
 
 const SingleNotebook = () => {
@@ -60,6 +61,11 @@ const SingleNotebook = () => {
         }
     }, [title, description])
 
+    const newNotePayload = {
+        owner_id: user.id,
+        notebook_id: id
+    }
+
     return (
         <>
                 <>
@@ -90,7 +96,7 @@ const SingleNotebook = () => {
                         dispatch(notebookActions.deleteNotebookThunk(id))
                         history.push('/')
                     }}>Delete Notebook</button>
-                    <button onClick={() => dispatch(noteAction.createNoteThunk())}>New Note</button>
+                    <button onClick={() => dispatch(noteAction.createNoteThunk(id, newNotePayload))}>New Note</button>
                 </>
         </>
     )

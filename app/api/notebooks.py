@@ -63,17 +63,28 @@ def update_notebook(id):
 
     return form.errors
 
-@notebook_routes.route('/<int:id/notes', methods=['GET', 'POST'])
+@notebook_routes.route('/<int:id>/notes', methods=['GET', 'POST'])
 def notebooks_notes(id):
+
     if request.method == "GET":
         notebook = Notebooks.query.get(id)
         notes = notebook.notes
         return {'notes': [note.to_dict() for note in notes]}
 
     if request.method == "POST":
-        form = CreatingNotesForm()
 
+        form = CreatingNotesForm()
+        user = current_user.to_dict()
+        form['csrf_token'].data = request.cookies['csrf_token']
+        print('\n', user['id'], '<--\n')
         if form.validate_on_submit():
             note = Notes(
-                
+                notebook_id=id,
+                owner_id=user['id']
             )
+
+            db.session.add(note)
+            db.session.commit()
+            return {'note': note.to_dict()}
+        else:
+            return form.errors

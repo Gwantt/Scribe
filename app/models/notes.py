@@ -4,6 +4,7 @@ from .note_tags import note_tags
 class Notes(db.Model):
     __tablename__='notes'
     id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String, nullable=True)
     note = db.Column(db.String, nullable=True)
     background_img = db.Column(db.String, nullable=True)
 

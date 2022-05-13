@@ -74,7 +74,17 @@ const SingleNotebook = () => {
     }
 
     const notesArray = Object.values(notes)
-    console.log(notesArray)
+
+    const handleNoteSubmit = async (e) => {
+        e.preventDefault()
+
+        const notePayload = {
+            title: note,
+            note: content
+        }
+
+        dispatch(noteAction.updateNote(notePayload, note.id))
+    }
 
     return (
         <div className="notebookNav">
@@ -130,19 +140,20 @@ const SingleNotebook = () => {
                         <div className="innerFormDiv">
                             {showNote && (
 
-                                <form className="noteForm">
+                                <form onSubmit={handleNoteSubmit} className="noteForm">
                                     <input
-                                        className="noteInput"
+                                        className="noteInput input"
                                         value={note}
                                         placeholder='name'
                                         onChange={e => setNote(e.target.value)}
                                     />
                                     <textarea
-                                        className="noteInput"
+                                        className="noteInput textarea"
                                         value={content}
                                         placeholder='start writing...'
                                         onChange={e => setContent(content)}
                                     />
+                                    <button>submit</button>
                                 </form>
                             )}
                         </div>

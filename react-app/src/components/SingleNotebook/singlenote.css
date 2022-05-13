@@ -47,4 +47,31 @@
 .noteInput {
     background-color: transparent;
     border: none;
+    width: 80%;
+}
+
+.noteForm {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+}
+
+.textarea {
+    height: 700px;
+    color: white;
+    font-size: 21px;
+    font-weight: 400;
+    margin: 10px;
+}
+
+.textarea:focus {
+    border: none;
+}
+
+.input {
+    height: 50px;
+    margin: 10px;
+    font-size: 30px;
+    font-weight: bold;
+    color: white
 }

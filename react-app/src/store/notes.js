@@ -1,6 +1,7 @@
 const CREATE = 'notes/CREATE'
 const LOAD = 'notes/LOAD'
 const LOAD_ONE = 'notes/LOAD_ONE'
+const UPDATE= 'notes/UPDATE'
 
 const create = note => ({
     type: CREATE,
@@ -14,6 +15,11 @@ const load = notes => ({
 
 const loadOne = note => ({
     type: LOAD_ONE,
+    note
+})
+
+const update = note => ({
+    type: UPDATE,
     note
 })
 
@@ -64,6 +70,21 @@ export const getNote = id => async dispatch => {
     }
 }
 
+export const updateNote = (payload, id) => async dispatch => {
+    const res = await fetch(`/api/notes/${id}/update`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    })
+
+    if(res.ok) {
+        const updatedNote = await res.json()
+        dispatch(update(updatedNote))
+    }
+}
+
 const notesReducer = (state = {}, action) => {
     switch (action.type) {
         case CREATE:
@@ -94,6 +115,10 @@ const notesReducer = (state = {}, action) => {
             return {
                 ...state, ...newState
             }
+        case UPDATE:
+            const updatedState = {...state};
+            updatedState[action.note.id] = action.note
+            return updatedState;
         default:
             return state
 

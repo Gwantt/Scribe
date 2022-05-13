@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import * as notebookActions from '../../store/notebook'
-import * as noteAction from '../../store/notes'
+import * as notesAction from '../../store/notes'
+import { loadOneNoteThunk } from "../../store/note";
 import './singlenote.css'
-import Note from "../Note";
 
 
 const SingleNotebook = () => {
@@ -16,6 +16,7 @@ const SingleNotebook = () => {
     const user = useSelector(state => state.session.user)
     const notebook = useSelector(state => state.notebooks)
     const notes = useSelector(state => state.notes)
+    const selectedNote = useSelector(state => state.note.note)
     const [title, setTitle] = useState()
     const [description, setDescription] = useState()
     const [errors, setErrors] = useState([])
@@ -23,10 +24,11 @@ const SingleNotebook = () => {
     const [showNote, setShowNote] = useState(false)
     const [note, setNote] = useState()
     const [content, setContent] = useState()
+    const [noteId, setNoteId] = useState()
 
     useEffect(async () => {
         await dispatch(notebookActions.loadOneThunk(id))
-        await dispatch(noteAction.loadNotesThunk(id))
+        await dispatch(notesAction.loadNotesThunk(id))
     }, [dispatch, id])
 
     if (!user) {
@@ -77,14 +79,22 @@ const SingleNotebook = () => {
 
     const handleNoteSubmit = async (e) => {
         e.preventDefault()
-
         const notePayload = {
             title: note,
             note: content
         }
 
-        dispatch(noteAction.updateNote(notePayload, note.id))
+        dispatch(notesAction.updateNote(notePayload, noteId))
     }
+
+    useEffect(() => {
+        if(selectedNote) {
+            setNoteId(selectedNote.id || '')
+            setContent(selectedNote.note || '')
+            setNote(selectedNote.title || '')
+        }
+    }, [selectedNote])
+
 
     return (
         <div className="notebookNav">
@@ -116,7 +126,7 @@ const SingleNotebook = () => {
                     dispatch(notebookActions.deleteNotebookThunk(id))
                     history.push('/')
                 }}>Delete Notebook</button>
-                <button onClick={() => dispatch(noteAction.createNoteThunk(id, newNotePayload))}>New Note</button>
+                <button onClick={() => dispatch(notesAction.createNoteThunk(id, newNotePayload))}>New Note</button>
             </div>
             <>
                 <div className="secondMain">
@@ -124,9 +134,7 @@ const SingleNotebook = () => {
                         <>
                             <a onClick={() => {
                                 setShowNote(true)
-                                dispatch(noteAction.getNote(note?.id))
-                                setContent(note.id.note)
-                                setNote(note.id.title)
+                                dispatch(loadOneNoteThunk(note?.id))
                             }} key={note?.id}>
                                 <div className="note" key={note?.id}>
                                     <h3 style={{ color: 'white' }}>{note?.title ? note?.title : 'Untitled'}</h3>
@@ -151,7 +159,7 @@ const SingleNotebook = () => {
                                         className="noteInput textarea"
                                         value={content}
                                         placeholder='start writing...'
-                                        onChange={e => setContent(content)}
+                                        onChange={e => setContent(e.target.value)}
                                     />
                                     <button>submit</button>
                                 </form>

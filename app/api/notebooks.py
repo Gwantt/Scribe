@@ -45,6 +45,7 @@ def delete_notebook(id):
     return notebook.to_dict()
 
 
+# Try doing patch
 @notebook_routes.route('/update/<int:id>', methods=['POST'])
 def update_notebook(id):
     notebook = Notebooks.query.get(id)

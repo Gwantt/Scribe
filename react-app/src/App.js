@@ -44,7 +44,6 @@ function App() {
           <User />
         </ProtectedRoute>
         <ProtectedRoute path='/' exact={true} >
-          <h1>My Home Page</h1>
           <Notebooks />
         </ProtectedRoute>
         <Route exact path='/new-notebook'>

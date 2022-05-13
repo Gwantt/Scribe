@@ -1,0 +1,12 @@
+.navbar {
+    position: fixed;
+    user-select: auto;
+    top: 0;
+    left: 0;
+    width: 243px;
+    height: 100%;
+    max-width: 400px;
+    min-width: 205px;
+    box-sizing: border-box;
+    background-color: darkgrey;
+}

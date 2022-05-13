@@ -1,0 +1,45 @@
+.main {
+    margin-left: 250px;
+}
+
+.notebookformdiv {
+    height: 100%;
+    background-color: #1A1A1A;
+    width: min-content;
+}
+
+.notebookNav {
+    height: 100%;
+    width: 243px;
+    margin-left: 0px;
+}
+
+.secondMain {
+    width: 243px;
+    margin-left: 250px;
+    height: 600px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.note {
+    cursor: pointer;
+    display: block;
+    font-size: 13px;
+    border-top: 1px solid white;
+    overflow: hidden;
+    padding: 16px 26px;
+    position: relative;
+    height: 120px;
+    margin: 2px;
+    width: 100%;
+}
+
+.outerFormDiv {
+    margin-left: 270px;
+    position: absolute;
+    top: 0;
+    background-color: #262626;
+    height: 100%;
+    width: 100%;
+}

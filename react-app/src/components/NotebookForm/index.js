@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import * as notebookActions from '../../store/notebook'
+import './notebookform.css'
 
 const NotebookForm = () => {
     const dispatch = useDispatch()
@@ -47,7 +48,7 @@ const NotebookForm = () => {
     }
     return (
         <div>
-            <form onSubmit={handleSubmit}>
+            <form className="main notebookform" onSubmit={handleSubmit}>
                 <ul className="errors">
                     {errors && errors.map((error, idx) => (
                         <li key={idx}>{error}</li>

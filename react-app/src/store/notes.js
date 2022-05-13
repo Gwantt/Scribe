@@ -57,20 +57,21 @@ export const loadNotesThunk = id => async dispatch => {
     }
 }
 
-export const getNote = id => async dispatch => {
-    const res = await fetch(`/api/notes/${id}`, {
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
+// export const getNote = id => async dispatch => {
+//     const res = await fetch(`/api/notes/${id}`, {
+//         headers: {
+//             'Content-Type': 'application/json'
+//         }
+//     })
 
-    if(res.ok) {
-        const note = await res.json()
-        dispatch(loadOne(note))
-    }
-}
+//     if(res.ok) {
+//         const note = await res.json()
+//         dispatch(loadOne(note))
+//     }
+// }
 
 export const updateNote = (payload, id) => async dispatch => {
+    console.log('payload & id -->, ', payload, id)
     const res = await fetch(`/api/notes/${id}/update`, {
         method: 'PATCH',
         headers: {
@@ -88,11 +89,11 @@ export const updateNote = (payload, id) => async dispatch => {
 const notesReducer = (state = {}, action) => {
     switch (action.type) {
         case CREATE:
-            console.log('action --->', action.note)
+            // console.log('action --->', action.note)
             if(!state[action.note.note.id]) {
                 const newState = {
                     ...state,
-                    [action.note.note.id]: action.newNote
+                    [action.note.note.id]: action.note
                 }
                 return newState
             }
@@ -105,6 +106,7 @@ const notesReducer = (state = {}, action) => {
             }
         case LOAD:
             const allNotes = {};
+            console.log('action load -->',action.note)
             action.notes.notes.forEach(note => {
                 allNotes[note.id] = note;
             })

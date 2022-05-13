@@ -7,7 +7,9 @@ note_routes = Blueprint('notes', __name__)
 
 @note_routes.route('/<int:id>')
 def get_single_note(id):
+    print('\n', id, '<---- \n')
     note = Notes.query.get(id)
+    print(note.to_dict(), '<--- \n')
     return {'note': note.to_dict()}
 
 

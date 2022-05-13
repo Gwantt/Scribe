@@ -13,10 +13,10 @@ const SingleNotebook = () => {
 
     // id of the notebook 1
     const { id } = useParams()
-    const user = useSelector(state => state.session.user)
-    const notebook = useSelector(state => state.notebooks)
-    const notes = useSelector(state => state.notes)
-    const selectedNote = useSelector(state => state.note.note)
+    const user = useSelector(state => state?.session?.user)
+    const notebook = useSelector(state => state?.notebooks)
+    const notes = useSelector(state => state?.notes)
+    const selectedNote = useSelector(state => state?.note?.note)
     const [title, setTitle] = useState()
     const [description, setDescription] = useState()
     const [errors, setErrors] = useState([])
@@ -26,10 +26,12 @@ const SingleNotebook = () => {
     const [content, setContent] = useState()
     const [noteId, setNoteId] = useState()
 
-    useEffect(async () => {
-        await dispatch(notebookActions.loadOneThunk(id))
-        await dispatch(notesAction.loadNotesThunk(id))
-    }, [dispatch, id])
+
+    // need to figure out the reload for notebooks notes
+    useEffect(() => {
+        dispatch(notebookActions.loadOneThunk(id))
+        dispatch(notesAction.loadNotesThunk(id))
+    }, [dispatch, id, notebook.notes])
 
     if (!user) {
         history.push('/')
@@ -130,10 +132,11 @@ const SingleNotebook = () => {
             </div>
             <>
                 <div className="secondMain">
-                    {notesArray && notesArray.map(note => (
+                    {notesArray && notesArray?.map(note => (
                         <>
                             <a onClick={() => {
                                 setShowNote(true)
+                                console.log(note, '<0----')
                                 dispatch(loadOneNoteThunk(note?.id))
                             }} key={note?.id}>
                                 <div className="note" key={note?.id}>

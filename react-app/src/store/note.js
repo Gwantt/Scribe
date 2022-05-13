@@ -7,6 +7,7 @@ const loadOne = note => ({
 
 
 export const loadOneNoteThunk = id => async dispatch => {
+    console.log('id -->', id)
     const res = await fetch(`/api/notes/${id}`, {
         headers: {
             'Content-Type': 'application/json'

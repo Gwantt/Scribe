@@ -96,8 +96,8 @@ const SingleNotebook = () => {
             setNote(selectedNote.title || '')
         }
     }, [selectedNote])
-
-
+    console.log(notes, 'notes from state')
+    console.log(notesArray, ' <-- notesArray ')
     return (
         <div className="notebookNav">
             <div className="notebookformdiv">
@@ -137,7 +137,7 @@ const SingleNotebook = () => {
                             <a onClick={() => {
                                 setShowNote(true)
                                 console.log(note, '<0----')
-                                dispatch(loadOneNoteThunk(note?.id))
+                                dispatch(loadOneNoteThunk(note?.id || note?.note.id))
                             }} key={note?.id}>
                                 <div className="note" key={note?.id}>
                                     <h3 style={{ color: 'white' }}>{note?.title ? note?.title : 'Untitled'}</h3>

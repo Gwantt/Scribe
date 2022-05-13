@@ -89,7 +89,6 @@ export const updateNote = (payload, id) => async dispatch => {
 const notesReducer = (state = {}, action) => {
     switch (action.type) {
         case CREATE:
-            // console.log('action --->', action.note)
             if(!state[action.note.note.id]) {
                 const newState = {
                     ...state,

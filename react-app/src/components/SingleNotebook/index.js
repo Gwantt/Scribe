@@ -22,6 +22,7 @@ const SingleNotebook = () => {
     const [edit, setShowEdit] = useState(false)
     const [showNote, setShowNote] = useState(false)
     const [note, setNote] = useState()
+    const [content, setContent] = useState()
 
     useEffect(async () => {
         await dispatch(notebookActions.loadOneThunk(id))
@@ -114,6 +115,8 @@ const SingleNotebook = () => {
                             <a onClick={() => {
                                 setShowNote(true)
                                 dispatch(noteAction.getNote(note?.id))
+                                setContent(note.id.note)
+                                setNote(note.id.title)
                             }} key={note?.id}>
                                 <div className="note" key={note?.id}>
                                     <h3 style={{ color: 'white' }}>{note?.title ? note?.title : 'Untitled'}</h3>
@@ -129,12 +132,19 @@ const SingleNotebook = () => {
 
                                 <form className="noteForm">
                                     <input
-                                        value={note?.title}
+                                        className="noteInput"
+                                        value={note}
+                                        placeholder='name'
                                         onChange={e => setNote(e.target.value)}
+                                    />
+                                    <textarea
+                                        className="noteInput"
+                                        value={content}
+                                        placeholder='start writing...'
+                                        onChange={e => setContent(content)}
                                     />
                                 </form>
                             )}
-
                         </div>
                     </div>
                 </div>

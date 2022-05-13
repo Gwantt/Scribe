@@ -22,6 +22,7 @@ class Notes(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
+            'title': self.title,
             'note': self.note,
             'background_img': self.background_img,
             'owner_id': self.owner_id,

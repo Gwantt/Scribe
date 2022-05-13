@@ -10,7 +10,6 @@ def get_all_notebooks(id):
     # get all notebooks associated to the current_user
     user = User.query.get(id)
     notebooks = user.notebooks
-    print(notebooks, '<====\n')
     return { 'notebooks': [notebook.to_dict() for notebook in notebooks] }
 
 
@@ -70,13 +69,13 @@ def notebooks_notes(id):
         notebook = Notebooks.query.get(id)
         notes = notebook.notes
         return {'notes': [note.to_dict() for note in notes]}
+        # {note.id: note.to_dict() for note in notes}
 
     if request.method == "POST":
 
         form = CreatingNotesForm()
         user = current_user.to_dict()
         form['csrf_token'].data = request.cookies['csrf_token']
-        print('\n', user['id'], '<--\n')
         if form.validate_on_submit():
             note = Notes(
                 notebook_id=id,

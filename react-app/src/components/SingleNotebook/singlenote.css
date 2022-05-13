@@ -1,0 +1,77 @@
+.main {
+    margin-left: 250px;
+}
+
+.notebookformdiv {
+    height: 100%;
+    background-color: #1A1A1A;
+    width: min-content;
+}
+
+.notebookNav {
+    height: 100%;
+    width: 243px;
+    margin-left: 0px;
+}
+
+.secondMain {
+    width: 243px;
+    margin-left: 250px;
+    height: 600px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.note {
+    cursor: pointer;
+    display: block;
+    font-size: 13px;
+    border-top: 1px solid white;
+    overflow: hidden;
+    padding: 16px 26px;
+    position: relative;
+    height: 120px;
+    margin: 2px;
+    width: 100%;
+}
+
+.outerFormDiv {
+    margin-left: 270px;
+    position: absolute;
+    top: 0;
+    background-color: #262626;
+    height: 100%;
+    width: 100%;
+}
+
+.noteInput {
+    background-color: transparent;
+    border: none;
+    width: 80%;
+}
+
+.noteForm {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+}
+
+.textarea {
+    height: 700px;
+    color: white;
+    font-size: 21px;
+    font-weight: 400;
+    margin: 10px;
+}
+
+.textarea:focus {
+    border: none;
+}
+
+.input {
+    height: 50px;
+    margin: 10px;
+    font-size: 30px;
+    font-weight: bold;
+    color: white
+}

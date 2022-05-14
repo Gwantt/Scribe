@@ -28,3 +28,10 @@ def update_note(id):
 
         return note.to_dict()
     return form.errors
+
+@note_routes.route('/<int:id>/delete', methods=['DELETE'])
+def delete_note(id):
+    note = Notes.query.get(id)
+    db.session.delete(note)
+    db.session.commit()
+    return note.to_dict()

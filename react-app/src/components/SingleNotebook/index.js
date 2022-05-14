@@ -5,7 +5,7 @@ import * as notebookActions from '../../store/notebook'
 import * as notesAction from '../../store/notes'
 import { loadOneNoteThunk } from "../../store/note";
 import './singlenote.css'
-
+import {AiFillCloseCircle} from 'react-icons/ai'
 
 const SingleNotebook = () => {
     const dispatch = useDispatch()
@@ -141,6 +141,7 @@ const SingleNotebook = () => {
                             }} key={note?.id}>
                                 <div className="note" key={note?.id}>
                                     <h3 style={{ color: 'white' }}>{note?.title ? note?.title : 'Untitled'}</h3>
+                                    <button onClick={() => dispatch(notesAction.deleteNoteThunk(note?.id || note?.note.id))}>Delete</button>
                                 </div>
                             </a>
 

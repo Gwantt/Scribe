@@ -2,6 +2,7 @@ const CREATE = 'notes/CREATE'
 const LOAD = 'notes/LOAD'
 const LOAD_ONE = 'notes/LOAD_ONE'
 const UPDATE= 'notes/UPDATE'
+const DELETE = 'notes/DELETE'
 
 const create = note => ({
     type: CREATE,
@@ -21,6 +22,11 @@ const loadOne = note => ({
 const update = note => ({
     type: UPDATE,
     note
+})
+
+const del = id => ({
+    type: DELETE,
+    id
 })
 
 
@@ -86,6 +92,16 @@ export const updateNote = (payload, id) => async dispatch => {
     }
 }
 
+export const deleteNoteThunk = id => async dispatch => {
+    const res = await fetch(`/api/notes/${id}/delete`, {
+        method: 'DELETE',
+    })
+
+    if(res.ok) {
+        dispatch(del(id))
+    }
+}
+
 const notesReducer = (state = {}, action) => {
     switch (action.type) {
         case CREATE:
@@ -120,6 +136,11 @@ const notesReducer = (state = {}, action) => {
             const updatedState = {...state};
             updatedState[action.note.id] = action.note
             return updatedState;
+
+        case DELETE:
+            const deletedState = {...state}
+            delete deletedState[action.id]
+            return deletedState
         default:
             return state
 

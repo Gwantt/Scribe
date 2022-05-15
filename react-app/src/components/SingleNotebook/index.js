@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import * as notebookActions from '../../store/notebook'
-import * as noteAction from '../../store/notes'
+import * as notesAction from '../../store/notes'
+import { loadOneNoteThunk } from "../../store/note";
 import './singlenote.css'
-import Note from "../Note";
-
+import {AiFillCloseCircle} from 'react-icons/ai'
 
 const SingleNotebook = () => {
     const dispatch = useDispatch()
@@ -13,9 +13,10 @@ const SingleNotebook = () => {
 
     // id of the notebook 1
     const { id } = useParams()
-    const user = useSelector(state => state.session.user)
-    const notebook = useSelector(state => state.notebooks)
-    const notes = useSelector(state => state.notes)
+    const user = useSelector(state => state?.session?.user)
+    const notebook = useSelector(state => state?.notebooks)
+    const notes = useSelector(state => state?.notes)
+    const selectedNote = useSelector(state => state?.note?.note)
     const [title, setTitle] = useState()
     const [description, setDescription] = useState()
     const [errors, setErrors] = useState([])
@@ -23,11 +24,14 @@ const SingleNotebook = () => {
     const [showNote, setShowNote] = useState(false)
     const [note, setNote] = useState()
     const [content, setContent] = useState()
+    const [noteId, setNoteId] = useState()
 
-    useEffect(async () => {
-        await dispatch(notebookActions.loadOneThunk(id))
-        await dispatch(noteAction.loadNotesThunk(id))
-    }, [dispatch, id])
+
+    // need to figure out the reload for notebooks notes
+    useEffect(() => {
+        dispatch(notebookActions.loadOneThunk(id))
+        dispatch(notesAction.loadNotesThunk(id))
+    }, [dispatch, id, notebook.notes])
 
     if (!user) {
         history.push('/')
@@ -43,7 +47,7 @@ const SingleNotebook = () => {
     const handleSubmit = async e => {
         e.preventDefault()
         const errors = []
-        if (title.length < 1 || title.length > 30) errors.push('Title must be shorter than 30 characters but longer than 1 character')
+        if (title.length < 1 || title.length > 30) errors.push('Title must be at least 1 character, and less than 30')
         if (description.length > 100) errors.push('Description must be less than 100 characters')
         if (description.length < 1) errors.push("Must have a description")
         if (errors.length) {
@@ -56,7 +60,7 @@ const SingleNotebook = () => {
             description
         }
         setShowEdit(false)
-
+        setErrors([])
         dispatch(notebookActions.updateNotebookThunk(id, payload))
     }
     useEffect(() => {
@@ -67,31 +71,45 @@ const SingleNotebook = () => {
             setShowEdit(false)
         }
     }, [title, description])
-
-    const newNotePayload = {
-        owner_id: user.id,
-        notebook_id: id
+    let newNotePayload;
+    if(user) {
+        newNotePayload = {
+            owner_id: user.id,
+            notebook_id: id
+        }
     }
 
     const notesArray = Object.values(notes)
 
     const handleNoteSubmit = async (e) => {
         e.preventDefault()
-
         const notePayload = {
             title: note,
             note: content
         }
 
-        dispatch(noteAction.updateNote(notePayload, note.id))
+        dispatch(notesAction.updateNote(notePayload, noteId))
     }
 
+    useEffect(() => {
+        if(selectedNote) {
+            setNoteId(selectedNote.id || '')
+            setContent(selectedNote.note || '')
+            setNote(selectedNote.title || '')
+        } else {
+            setNoteId(null)
+            setContent(null)
+            setNote(null)
+        }
+    }, [selectedNote])
+    console.log(notes, 'notes from state')
+    console.log(notesArray, ' <-- notesArray ')
     return (
         <div className="notebookNav">
             <div className="notebookformdiv">
                 <form className="main" onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', width: 'min-content', border: 'none' }}>
                     {errors && errors.map((error, idx) => (
-                        <li style={{ color: 'red', listStyle: 'none' }} key={idx}>{error}</li>
+                        <li style={{ color: 'red', listStyle: 'none', width: '250px', fontWeight: '400' }} key={idx}>{error}</li>
                     ))}
                     <input
                         spellCheck='false'
@@ -104,7 +122,7 @@ const SingleNotebook = () => {
                     </br>
                     <input
                         spellCheck='false'
-                        style={{ color: 'white', border: 'none', width: '500px', background: 'transparent' }}
+                        style={{ color: 'white', border: 'none', width: '500px', background: 'transparent', outline:'none' }}
                         value={description}
                         onChange={e => setDescription(e.target.value)}
                     />
@@ -116,20 +134,22 @@ const SingleNotebook = () => {
                     dispatch(notebookActions.deleteNotebookThunk(id))
                     history.push('/')
                 }}>Delete Notebook</button>
-                <button onClick={() => dispatch(noteAction.createNoteThunk(id, newNotePayload))}>New Note</button>
+                <button onClick={() => dispatch(notesAction.createNoteThunk(id, newNotePayload))}>New Note</button>
             </div>
             <>
                 <div className="secondMain">
-                    {notesArray && notesArray.map(note => (
+                    {notesArray && notesArray?.map(note => (
                         <>
                             <a onClick={() => {
                                 setShowNote(true)
-                                dispatch(noteAction.getNote(note?.id))
-                                setContent(note.id.note)
-                                setNote(note.id.title)
+                                dispatch(loadOneNoteThunk(note?.id || note?.note.id))
                             }} key={note?.id}>
                                 <div className="note" key={note?.id}>
                                     <h3 style={{ color: 'white' }}>{note?.title ? note?.title : 'Untitled'}</h3>
+                                    <button onClick={() => {
+                                        setShowNote(false)
+                                        dispatch(notesAction.deleteNoteThunk(note?.id || note?.note.id))
+                                    }}>Delete</button>
                                 </div>
                             </a>
 
@@ -138,20 +158,22 @@ const SingleNotebook = () => {
 
                     <div className="outerFormDiv">
                         <div className="innerFormDiv">
-                            {showNote && (
+                            {showNote && noteId && (
 
                                 <form onSubmit={handleNoteSubmit} className="noteForm">
                                     <input
                                         className="noteInput input"
-                                        value={note}
+                                        style={{border: 'none', outline:'none', borderBottom:'1px solid #008F26'}}
+                                        value={note || ''}
                                         placeholder='name'
                                         onChange={e => setNote(e.target.value)}
                                     />
                                     <textarea
                                         className="noteInput textarea"
-                                        value={content}
+                                        value={content || ''}
+                                        style={{border:'none', outline:'none'}}
                                         placeholder='start writing...'
-                                        onChange={e => setContent(content)}
+                                        onChange={e => setContent(e.target.value)}
                                     />
                                     <button>submit</button>
                                 </form>

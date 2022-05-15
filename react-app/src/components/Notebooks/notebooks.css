@@ -12,12 +12,12 @@ button {
 }
 
 body {
-    background-color: #1A1A1A;
+    background-color: #000;
     overflow-x: hidden;
 }
 
 .notebooks {
-    background-color: #40916c;
+    background-color: #1A1A1A;
     height: 30vh;
     grid-column: span 2;
     border-radius: 10px;
@@ -34,6 +34,7 @@ h5 {
     grid-auto-rows: auto;
     grid-template-columns: repeat(3, minmax(0,1fr));
     min-width: 288px;
+    /* z-index: 90; */
 }
 
 .innerDiv {
@@ -47,10 +48,9 @@ h5 {
     height: 150px;
     width: 200px;
     margin: 0 12px 0 0;
-    outline: 1px white solid;
     cursor: pointer;
     border-radius: 5px;
-    background-color: #2d6a4f;
+    background-color: #262626;
 }
 
 .notebookCard {
@@ -60,7 +60,7 @@ h5 {
     /* padding-top: 16px;
     padding: 0 16px; */
     padding: 16px 16px;
-    background-color: #2d6a4f;
+    background-color: #262626;
     outline: none;
     border: none;
     color: white;
@@ -84,4 +84,29 @@ h5 {
     font-size: 12px;
     line-height: 18px;
     padding-bottom: 2px;
+}
+
+.notebook:hover {
+    box-shadow: 0px 0px 8px rgb(0, 0, 0);
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.grantLinks {
+    grid-column: span 1;
+    background-color: #26251C;
+    border-radius: 10px;
+    border: 1px solid #6F6C52;
+}
+
+.myLinks {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+}
+
+.myLinks a {
+    margin-top: 50px;
+    font-weight: bold;
+    text-decoration: none;
+    color: white
 }

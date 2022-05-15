@@ -16,5 +16,6 @@ class Notebooks(db.Model):
             'id': self.id,
             'title': self.title,
             'description': self.description,
-            'owner_id': self.owner_id
+            'owner_id': self.owner_id,
+            # 'notes': self.notes
         }

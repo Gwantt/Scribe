@@ -2,6 +2,7 @@ const CREATE = 'notes/CREATE'
 const LOAD = 'notes/LOAD'
 const LOAD_ONE = 'notes/LOAD_ONE'
 const UPDATE= 'notes/UPDATE'
+const DELETE = 'notes/DELETE'
 
 const create = note => ({
     type: CREATE,
@@ -21,6 +22,11 @@ const loadOne = note => ({
 const update = note => ({
     type: UPDATE,
     note
+})
+
+const del = id => ({
+    type: DELETE,
+    id
 })
 
 
@@ -57,22 +63,23 @@ export const loadNotesThunk = id => async dispatch => {
     }
 }
 
-export const getNote = id => async dispatch => {
-    const res = await fetch(`/api/notes/${id}`, {
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
+// export const getNote = id => async dispatch => {
+//     const res = await fetch(`/api/notes/${id}`, {
+//         headers: {
+//             'Content-Type': 'application/json'
+//         }
+//     })
 
-    if(res.ok) {
-        const note = await res.json()
-        dispatch(loadOne(note))
-    }
-}
+//     if(res.ok) {
+//         const note = await res.json()
+//         dispatch(loadOne(note))
+//     }
+// }
 
 export const updateNote = (payload, id) => async dispatch => {
+    console.log('payload & id -->, ', payload, id)
     const res = await fetch(`/api/notes/${id}/update`, {
-        method: 'POST',
+        method: 'PATCH',
         headers: {
             'Content-Type': 'application/json'
         },
@@ -85,14 +92,23 @@ export const updateNote = (payload, id) => async dispatch => {
     }
 }
 
+export const deleteNoteThunk = id => async dispatch => {
+    const res = await fetch(`/api/notes/${id}/delete`, {
+        method: 'DELETE',
+    })
+
+    if(res.ok) {
+        dispatch(del(id))
+    }
+}
+
 const notesReducer = (state = {}, action) => {
     switch (action.type) {
         case CREATE:
-            console.log('action --->', action.note)
             if(!state[action.note.note.id]) {
                 const newState = {
                     ...state,
-                    [action.note.note.id]: action.newNote
+                    [action.note.note.id]: action.note
                 }
                 return newState
             }
@@ -105,6 +121,7 @@ const notesReducer = (state = {}, action) => {
             }
         case LOAD:
             const allNotes = {};
+            console.log('action load -->',action.note)
             action.notes.notes.forEach(note => {
                 allNotes[note.id] = note;
             })
@@ -119,6 +136,11 @@ const notesReducer = (state = {}, action) => {
             const updatedState = {...state};
             updatedState[action.note.id] = action.note
             return updatedState;
+
+        case DELETE:
+            const deletedState = {...state}
+            delete deletedState[action.id]
+            return deletedState
         default:
             return state
 

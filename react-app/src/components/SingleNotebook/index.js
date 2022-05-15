@@ -47,7 +47,7 @@ const SingleNotebook = () => {
     const handleSubmit = async e => {
         e.preventDefault()
         const errors = []
-        if (title.length < 1 || title.length > 30) errors.push('Title must be shorter than 30 characters but longer than 1 character')
+        if (title.length < 1 || title.length > 30) errors.push('Title must be at least 1 character, and less than 30')
         if (description.length > 100) errors.push('Description must be less than 100 characters')
         if (description.length < 1) errors.push("Must have a description")
         if (errors.length) {
@@ -60,7 +60,7 @@ const SingleNotebook = () => {
             description
         }
         setShowEdit(false)
-
+        setErrors([])
         dispatch(notebookActions.updateNotebookThunk(id, payload))
     }
     useEffect(() => {
@@ -71,10 +71,12 @@ const SingleNotebook = () => {
             setShowEdit(false)
         }
     }, [title, description])
-
-    const newNotePayload = {
-        owner_id: user.id,
-        notebook_id: id
+    let newNotePayload;
+    if(user) {
+        newNotePayload = {
+            owner_id: user.id,
+            notebook_id: id
+        }
     }
 
     const notesArray = Object.values(notes)
@@ -94,6 +96,10 @@ const SingleNotebook = () => {
             setNoteId(selectedNote.id || '')
             setContent(selectedNote.note || '')
             setNote(selectedNote.title || '')
+        } else {
+            setNoteId(null)
+            setContent(null)
+            setNote(null)
         }
     }, [selectedNote])
     console.log(notes, 'notes from state')
@@ -103,7 +109,7 @@ const SingleNotebook = () => {
             <div className="notebookformdiv">
                 <form className="main" onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', width: 'min-content', border: 'none' }}>
                     {errors && errors.map((error, idx) => (
-                        <li style={{ color: 'red', listStyle: 'none' }} key={idx}>{error}</li>
+                        <li style={{ color: 'red', listStyle: 'none', width: '250px', fontWeight: '400' }} key={idx}>{error}</li>
                     ))}
                     <input
                         spellCheck='false'
@@ -116,7 +122,7 @@ const SingleNotebook = () => {
                     </br>
                     <input
                         spellCheck='false'
-                        style={{ color: 'white', border: 'none', width: '500px', background: 'transparent' }}
+                        style={{ color: 'white', border: 'none', width: '500px', background: 'transparent', outline:'none' }}
                         value={description}
                         onChange={e => setDescription(e.target.value)}
                     />
@@ -136,12 +142,14 @@ const SingleNotebook = () => {
                         <>
                             <a onClick={() => {
                                 setShowNote(true)
-                                console.log(note, '<0----')
                                 dispatch(loadOneNoteThunk(note?.id || note?.note.id))
                             }} key={note?.id}>
                                 <div className="note" key={note?.id}>
                                     <h3 style={{ color: 'white' }}>{note?.title ? note?.title : 'Untitled'}</h3>
-                                    <button onClick={() => dispatch(notesAction.deleteNoteThunk(note?.id || note?.note.id))}>Delete</button>
+                                    <button onClick={() => {
+                                        setShowNote(false)
+                                        dispatch(notesAction.deleteNoteThunk(note?.id || note?.note.id))
+                                    }}>Delete</button>
                                 </div>
                             </a>
 
@@ -150,18 +158,20 @@ const SingleNotebook = () => {
 
                     <div className="outerFormDiv">
                         <div className="innerFormDiv">
-                            {showNote && (
+                            {showNote && noteId && (
 
                                 <form onSubmit={handleNoteSubmit} className="noteForm">
                                     <input
                                         className="noteInput input"
-                                        value={note}
+                                        style={{border: 'none', outline:'none', borderBottom:'1px solid #008F26'}}
+                                        value={note || ''}
                                         placeholder='name'
                                         onChange={e => setNote(e.target.value)}
                                     />
                                     <textarea
                                         className="noteInput textarea"
-                                        value={content}
+                                        value={content || ''}
+                                        style={{border:'none', outline:'none'}}
                                         placeholder='start writing...'
                                         onChange={e => setContent(e.target.value)}
                                     />

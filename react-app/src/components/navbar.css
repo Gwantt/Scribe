@@ -1,6 +1,5 @@
 .navbar {
     position: fixed;
-    user-select: auto;
     top: 0;
     left: 0;
     width: 243px;
@@ -8,5 +7,20 @@
     max-width: 400px;
     min-width: 205px;
     box-sizing: border-box;
-    background-color: darkgrey;
+    background-color: #000;
+    border-right: 1px solid gray;
+}
+
+
+.list {
+    list-style: none;
+    text-decoration: none;
+}
+
+.navLink {
+    text-decoration: none;
+}
+
+button {
+    border-radius: 5px;
 }

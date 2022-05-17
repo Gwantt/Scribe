@@ -43,9 +43,8 @@ const NotebookForm = () => {
         if(newNotebook) {
             history.push(`/`)
         }
-
-
     }
+    
     return (
         <div>
             <form className="main notebookform" onSubmit={handleSubmit}>

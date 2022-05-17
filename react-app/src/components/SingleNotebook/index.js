@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import * as notebookActions from '../../store/notebook'
 import * as notesAction from '../../store/notes'
-import { loadOneNoteThunk } from "../../store/note";
+import { loadOneNoteThunk, deleteOneThunk } from "../../store/note";
 import './singlenote.css'
 import {AiFillCloseCircle} from 'react-icons/ai'
 
@@ -146,9 +146,10 @@ const SingleNotebook = () => {
                             }} key={note?.id}>
                                 <div className="note" key={note?.id}>
                                     <h3 style={{ color: 'white' }}>{note?.title ? note?.title : 'Untitled'}</h3>
-                                    <button onClick={() => {
+                                    <button onClick={async() => {
                                         setShowNote(false)
-                                        dispatch(notesAction.deleteNoteThunk(note?.id || note?.note.id))
+                                        await dispatch(notesAction.deleteNoteThunk(note?.id || note?.note.id))
+                                        dispatch(deleteOneThunk())
                                     }}>Delete</button>
                                 </div>
                             </a>

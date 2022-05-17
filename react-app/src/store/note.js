@@ -1,10 +1,14 @@
 const LOAD_ONE = 'note/LOAD_ONE'
+const DELETE_ONE = 'note/DELETE_ONE'
 
 const loadOne = note => ({
     type: LOAD_ONE,
     note
 })
 
+const deleteOne = () => ({
+    type: DELETE_ONE
+})
 
 export const loadOneNoteThunk = id => async dispatch => {
     console.log('id -->', id)
@@ -20,6 +24,10 @@ export const loadOneNoteThunk = id => async dispatch => {
     }
 }
 
+export const deleteOneThunk = () => dispatch => {
+    dispatch(deleteOne())
+}
+
 
 const noteReducer = (state = {}, action) => {
     switch (action.type) {
@@ -27,6 +35,8 @@ const noteReducer = (state = {}, action) => {
             const newState = {}
             newState['note'] = action.note.note
             return newState
+        case DELETE_ONE:
+            return {}
         default:
             return state
     }

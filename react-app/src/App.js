@@ -11,6 +11,7 @@ import { authenticate } from './store/session';
 import Notebooks from './components/Notebooks';
 import NotebookForm from './components/NotebookForm';
 import SingleNotebook from './components/SingleNotebook';
+import Home from './components/Home'
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -29,8 +30,10 @@ function App() {
 
   return (
     <BrowserRouter>
-      <NavBar />
       <Switch>
+        <Route exact path='/splash'>
+          <Home />
+        </Route>
         <Route path='/login' exact={true}>
           <LoginForm />
         </Route>
@@ -44,13 +47,16 @@ function App() {
           <User />
         </ProtectedRoute>
         <ProtectedRoute path='/' exact={true} >
+          <NavBar />
           <Notebooks />
         </ProtectedRoute>
         <Route exact path='/new-notebook'>
           <NotebookForm />
+          <NavBar />
         </Route>
         <Route exact path='/notebook/:id'>
           <SingleNotebook />
+          <NavBar />
         </Route>
       </Switch>
     </BrowserRouter>

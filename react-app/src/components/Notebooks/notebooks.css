@@ -16,14 +16,7 @@ body {
     overflow-x: hidden;
 }
 
-.notebooks {
-    background-color: #1A1A1A;
-    height: 30vh;
-    grid-column: span 2;
-    border-radius: 10px;
-    overflow-x: scroll;
-    margin-left: 250px;
-}
+
 
 h5 {
     margin-left: 16px;
@@ -34,6 +27,8 @@ h5 {
     grid-auto-rows: auto;
     grid-template-columns: repeat(3, minmax(0,1fr));
     min-width: 288px;
+    position: relative;
+    z-index: 1 !important;
     /* z-index: 90; */
 }
 
@@ -43,20 +38,52 @@ h5 {
     padding: 18px 10px 10px 17px;
 }
 
+
+.notebooks {
+    background-color: #1A1A1A;
+    height: 30vh;
+    grid-column: span 2;
+    border-radius: 10px;
+    overflow-x: scroll;
+    margin-left: 250px;
+    /* box-shadow: inset -1em 0em 10px rgba(245, 66, 66, 0.6); */
+    /* position: relative; */
+    z-index: 2 !important;
+}
+
+.dummy {
+    box-shadow: inset 0em 0em 8px rgb(0, 0, 0);
+    position: absolute;
+    top: 0;
+    border-radius: 10px;
+    width: 30px;
+    width: 1011.33px;
+    height: 32vh;
+    margin-left: -17px;
+    /* fill-opacity: transparent; */
+    pointer-events: none;
+    background-repeat: no-repeat;
+}
+
+
 .notebook {
     flex: none;
-    height: 150px;
+    height: 180px;
     width: 200px;
     margin: 0 12px 0 0;
     cursor: pointer;
     border-radius: 5px;
     background-color: #262626;
-}
+    /* position: absolute; */
+    overflow: hidden;
+    margin-right: 10px;
 
+}
+/* 262626 */
 .notebookCard {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-evenly;
     /* padding-top: 16px;
     padding: 0 16px; */
     padding: 16px 16px;
@@ -67,7 +94,8 @@ h5 {
     border-radius: 5px;
     font-weight: 600;
     cursor: pointer;
-
+    position: relative;
+    height: 180px;
 }
 
 .notebookTitle {

@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import * as notebookActions from '../../store/notebook'
 import './notebookform.css'
 
-const NotebookForm = () => {
+const NotebookForm = ({ closeModal }) => {
     const dispatch = useDispatch()
     const history = useHistory()
 
@@ -41,13 +41,14 @@ const NotebookForm = () => {
         const newNotebook = await dispatch(notebookActions.createNotebookThunk(user.id, payload))
 
         if(newNotebook) {
-            history.push(`/`)
+            closeModal()
+        //    history.push(`/`)
         }
     }
-    
+
     return (
-        <div>
-            <form className="main notebookform" onSubmit={handleSubmit}>
+        <div className="logWrapper">
+            <form className="mainForm notebookform" onSubmit={handleSubmit}>
                 <ul className="errors">
                     {errors && errors.map((error, idx) => (
                         <li key={idx}>{error}</li>
@@ -55,16 +56,16 @@ const NotebookForm = () => {
                 </ul>
                 <h1>Create A New Notebook</h1>
                 <div>
-                    <label for='title'>Title</label>
                     <input
                         type="input"
                         name='title'
+                        placeholder="Title"
                         onChange={e => setTitle(e.target.value)}
                     />
-                    <label for='description'>Description</label>
                     <input
                         type='input'
                         name='description'
+                        placeholder="Description"
                         onChange={e => setDescription(e.target.value)}
                     />
                 </div>

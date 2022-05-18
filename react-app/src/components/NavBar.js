@@ -6,8 +6,10 @@ import './navbar.css'
 
 const NavBar = () => {
   const user = useSelector(state => state.session.user)
+  const notebooks = useSelector(state => state.notebooks)
+  const notebookArr = Object.values(notebooks)
   return (
-    <nav className='navbar'>
+    <nav style={{position:'absolute', zIndex:'210203123'}} className='navbar'>
       <ul className='list'>
         <li className='list'>
           <NavLink className='navLink' to='/' exact={true} activeClassName='active'>
@@ -29,6 +31,16 @@ const NavBar = () => {
           </>
         )}
         <li>
+          <details>
+            <summary>Notebooks</summary>
+            <ul>
+              {notebookArr && notebookArr.map(notebook => (
+                <li style={{ listStyle:'none', position:'relative', zIndex:"1000000"}}><NavLink to={`/notebook/${notebook.id}`}>{notebook.title}</NavLink></li>
+              ))}
+            </ul>
+          </details>
+        </li>
+        <li className='list'>
           <LogoutButton />
         </li>
       </ul>

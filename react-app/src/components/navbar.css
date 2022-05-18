@@ -15,7 +15,20 @@
 .list {
     list-style: none;
     text-decoration: none;
+    color: white;
+    margin-top: 30px;
+    width: max-content;
+    /* height: min-content; */
 }
+
+
+.navLink:hover {
+    background-color: #babac0;
+}
+
+/* .list:hover {
+    background-color: #babac0;
+} */
 
 .navLink {
     text-decoration: none;
@@ -31,17 +44,14 @@ button {
 }
 
 ::-webkit-scrollbar-track {
-    background-color: #1A1A1A;
+    background-color: black;
 }
 
-::-webkit-scrollbar-track:hover {
-    background-color: #1A1A1A;
-}
 
 ::-webkit-scrollbar-thumb {
     background-color: #babac0;
     border-radius: 16px;
-    border:5px solid #1A1A1A
+    border: none;
 }
 
 /* ::-webkit-scrollbar-thumb:hover {

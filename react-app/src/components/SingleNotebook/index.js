@@ -172,7 +172,7 @@ const SingleNotebook = () => {
                                     <textarea
                                         className="noteInput textarea"
                                         value={content || ''}
-                                        style={{border:'none', outline:'none'}}
+                                        style={{border:'none', outline:'none', resize: 'none'}}
                                         placeholder='start writing...'
                                         onChange={e => setContent(e.target.value)}
                                     />

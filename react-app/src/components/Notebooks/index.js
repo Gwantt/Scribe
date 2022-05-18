@@ -1,13 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from "react-router-dom";
 import * as notebookActions from '../../store/notebook'
 import './notebooks.css'
 import { AiFillPlusCircle, AiFillGithub, AiFillLinkedin } from 'react-icons/ai'
 import NotebookFormModal from "../NotebookForm/NotebookFormModal";
-import Popup from 'reactjs-popup';
-import 'reactjs-popup/dist/index.css';
-import NotebookForm from "../NotebookForm";
 
 const Notebooks = () => {
     const dispatch = useDispatch()
@@ -15,12 +12,25 @@ const Notebooks = () => {
 
     const user = useSelector(state => state.session.user)
     const notebooks = useSelector(state => state.notebooks)
+    const [quotes, setQuotes] = useState()
 
     const arrayNotebooks = Object.values(notebooks)
 
     useEffect(() => {
         dispatch(notebookActions.loadAllNotebooksThunk(user.id))
     }, [dispatch, user.id])
+
+    const fetchQuote = async () => {
+        const res = await fetch('https://api.quotable.io/random')
+        const data = await res.json()
+        console.log(data)
+        setQuotes(data)
+    }
+
+    useEffect(() => {
+        fetchQuote()
+    }, [])
+
     let date;
     useEffect(() => {
         date = new Date().getHours()
@@ -57,6 +67,9 @@ const Notebooks = () => {
                         <a style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100px' }} href='https://github.com/Gwantt' target="_blank">Github <AiFillGithub /> </a>
                     </div>
                 </div>
+            </div>
+            <div>
+                <p style={{color:'white'}}>{quotes?.content}</p>
             </div>
         </>
     )

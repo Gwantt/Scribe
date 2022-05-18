@@ -52,13 +52,13 @@ h5 {
 }
 
 .dummy {
-    box-shadow: inset 0em 0em 20px rgba(0, 0, 0, 0.404);
+    box-shadow: inset 0em 0em 8px rgb(0, 0, 0);
     position: absolute;
     top: 0;
     border-radius: 10px;
     width: 30px;
     width: 1011.33px;
-    height: 40vh;
+    height: 32vh;
     margin-left: -17px;
     /* fill-opacity: transparent; */
     pointer-events: none;

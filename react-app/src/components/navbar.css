@@ -15,7 +15,20 @@
 .list {
     list-style: none;
     text-decoration: none;
+    color: white;
+    margin-top: 30px;
+    width: max-content;
+    /* height: min-content; */
 }
+
+
+.navLink:hover {
+    background-color: #babac0;
+}
+
+/* .list:hover {
+    background-color: #babac0;
+} */
 
 .navLink {
     text-decoration: none;

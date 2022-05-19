@@ -78,7 +78,7 @@ const Notebooks = () => {
             <img style={{objectFit:'contain', height:'70%', width:'50%', position:'absolute'}} className='daytonImg' src="https://res.cloudinary.com/daeopbcax/image/upload/v1652913929/feather/pohsun_lkk9gv.png"/>
             <img style={{objectFit:'contain', width:'20%', height:'20%', position:'absolute', transform:'translate(90%, 99%)', zIndex:'100'}}src='https://res.cloudinary.com/daeopbcax/image/upload/v1652915475/feather/reverse_top_hand_o0loqk.png' />
             <img style={{objectFit:'contain', width:'20%', height:'20%', position:'absolute', transform:'translate(365%, 98.9%)', zIndex:'100'}}src='https://res.cloudinary.com/daeopbcax/image/upload/v1652914261/feather/top_hand_xrvqjx.png' />
-            <h3 style={{ color: 'white', marginLeft: '250px', marginBottom: '70px' }}>Good {timeOfDay}, {user.username}</h3>
+            <h3 style={{ color: 'white', marginLeft: '250px', marginBottom: '70px' }}>Hello {user.username} </h3>
             <h3 style={{ marginLeft: '250px', color: 'white', position: 'absolute', right: '0', top: '0', display: 'flex', flexDirection: 'column' }}>{`${time}`}</h3>
             <div className="splash-wrapper">
                 <div className="notebooks">
@@ -117,14 +117,14 @@ const Notebooks = () => {
                     </div>
                 </div>
                 <div className='notes'>
-                    <h5 style={{ color: 'white' }}>Notes</h5>
+                    <h5 style={{ color: 'white' }}>Suggested Notes</h5>
                     <div className="innerDiv">
                         {notes?.map(note => (
                             <>
                                 <a style={{ textDecoration: 'none', color: 'white', backgroundColor: 'transparent' }} href={`/notebook/${note.notebook_id}`} className='notebook'>
                                     <div className="notebookCard">
                                         <div className="notebookTitle">
-                                            <p>{note?.title}</p>
+                                            <p>{note?.title ? note?.title : 'Untitled'}</p>
                                         </div>
                                     </div>
                                 </a>

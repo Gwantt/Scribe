@@ -148,8 +148,8 @@ const SingleNotebook = () => {
                         <button style={{ width: 'min-content' }}>Update</button>
                     )}
                 </form>
-                <button className='main' onClick={() => {
-                    dispatch(notebookActions.deleteNotebookThunk(id))
+                <button className='main' onClick={ async () => {
+                    await dispatch(notebookActions.deleteNotebookThunk(id))
                     history.push('/')
                 }}>Delete Notebook</button>
                 <button onClick={() => dispatch(notesAction.createNoteThunk(id, newNotePayload))}>New Note</button>

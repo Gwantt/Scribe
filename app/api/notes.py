@@ -35,3 +35,7 @@ def delete_note(id):
     db.session.delete(note)
     db.session.commit()
     return note.to_dict()
+
+# @note_routes.route('/<int:id>/user')
+# def user_notes(id):
+#     notes = Notes.query.first(id)

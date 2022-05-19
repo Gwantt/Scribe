@@ -111,9 +111,9 @@ const Notebooks = () => {
                 </div>
                 <div className="quoteWrapper">
                     <div className="quoteDiv">
-                        <h3 style={{color:'white'}}>Todays Famous Quote Of Wisdom</h3>
+                        <h3 style={{color:'white'}}>Random Famous Quote Of Wisdom</h3>
                         <p style={{ color: 'white', fontWeight: '600' }}>{quotes?.content}</p>
-                        <h4>{quotes?.author}</h4>
+                        <h4 style={{color:'#babac0'}}>{quotes?.author}</h4>
                     </div>
                 </div>
                 <div className='notes'>

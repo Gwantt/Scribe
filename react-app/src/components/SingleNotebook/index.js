@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import * as notebookActions from '../../store/notebook'
@@ -10,7 +10,7 @@ import { AiFillCloseCircle } from 'react-icons/ai'
 const SingleNotebook = () => {
     const dispatch = useDispatch()
     const history = useHistory()
-
+    const didMount = useRef(false)
     // id of the notebook 1
     const { id } = useParams()
     const user = useSelector(state => state?.session?.user)
@@ -82,7 +82,7 @@ const SingleNotebook = () => {
     const notesArray = Object.values(notes)
 
     const handleNoteSubmit = async (e) => {
-        e.preventDefault()
+        e?.preventDefault()
         const notePayload = {
             title: note,
             note: content
@@ -90,6 +90,14 @@ const SingleNotebook = () => {
 
         dispatch(notesAction.updateNote(notePayload, noteId))
     }
+
+    useEffect(() => {
+        if(didMount.current) {
+            handleNoteSubmit()
+        } else {
+            didMount.current = true;
+        }
+    }, [note, content, noteId])
 
     useEffect(() => {
         if (selectedNote) {
@@ -179,7 +187,6 @@ const SingleNotebook = () => {
                                         placeholder='start writing...'
                                         onChange={e => setContent(e.target.value)}
                                     />
-                                    <button>submit</button>
                                 </form>
                             )}
                         </div>

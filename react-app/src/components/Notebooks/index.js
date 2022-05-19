@@ -75,7 +75,7 @@ const Notebooks = () => {
 
     return (
         <>
-            <img style={{objectFit:'contain', height:'70%', width:'50%', position:'absolute', transform:'translate(50%, -7%)'}} src="https://res.cloudinary.com/daeopbcax/image/upload/v1652913929/feather/pohsun_lkk9gv.png"/>
+            <img style={{objectFit:'contain', height:'70%', width:'50%', position:'absolute'}} className='daytonImg' src="https://res.cloudinary.com/daeopbcax/image/upload/v1652913929/feather/pohsun_lkk9gv.png"/>
             <img style={{objectFit:'contain', width:'20%', height:'20%', position:'absolute', transform:'translate(90%, 99%)', zIndex:'100'}}src='https://res.cloudinary.com/daeopbcax/image/upload/v1652915475/feather/reverse_top_hand_o0loqk.png' />
             <img style={{objectFit:'contain', width:'20%', height:'20%', position:'absolute', transform:'translate(365%, 98.9%)', zIndex:'100'}}src='https://res.cloudinary.com/daeopbcax/image/upload/v1652914261/feather/top_hand_xrvqjx.png' />
             <h3 style={{ color: 'white', marginLeft: '250px', marginBottom: '70px' }}>Good {timeOfDay}, {user.username}</h3>

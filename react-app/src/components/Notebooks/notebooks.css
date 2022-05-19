@@ -164,3 +164,18 @@ h5 {
 /* .quoteWrapper {
     margin-left: 250px;
 } */
+
+@keyframes daytonSlide {
+    from {
+        transform: translate(50%, 30%);
+    }
+
+    to {
+        transform: translate(50%, -7%)
+    }
+}
+
+.daytonImg {
+    animation: daytonSlide 3s linear 1s;
+    transform: translate(50%, -7%)
+}

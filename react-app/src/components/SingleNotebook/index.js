@@ -137,7 +137,7 @@ const SingleNotebook = () => {
                 <button onClick={() => dispatch(notesAction.createNoteThunk(id, newNotePayload))}>New Note</button>
             </div>
             <>
-                <div className="secondMain" style={{marginTop:'200px'}}>
+                <div className="secondMain" style={{marginTop:'200px', display:'block', position:'absolute', zIndex:'1000'}}>
                     <div>
                         {notesArray && notesArray?.map(note => (
                             <div className="noteList" >

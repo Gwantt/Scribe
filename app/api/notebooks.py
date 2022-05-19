@@ -7,7 +7,6 @@ notebook_routes = Blueprint('notebooks', __name__)
 
 @notebook_routes.route('/<int:id>')
 def get_all_notebooks(id):
-    # get all notebooks associated to the current_user
     user = User.query.get(id)
     notebooks = user.notebooks
     return { 'notebooks': [notebook.to_dict() for notebook in notebooks] }

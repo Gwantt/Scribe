@@ -128,8 +128,8 @@ const notebookReducer = (state = {}, action) => {
             singleBook[action.notebook.notebook.id] = action.notebook.notebook;
             return {...state, ...singleBook}
         case DELETE:
-            console.log(action.id)
             const deleteState = {...state}
+            console.log(deleteState[action.id])
             delete deleteState[action.id]
             return deleteState
         case UPDATE:

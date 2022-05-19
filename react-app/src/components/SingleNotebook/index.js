@@ -11,7 +11,9 @@ const SingleNotebook = () => {
     const dispatch = useDispatch()
     const history = useHistory()
     const didMount = useRef(false)
+
     // id of the notebook 1
+
     const { id } = useParams()
     const user = useSelector(state => state?.session?.user)
     const notebook = useSelector(state => state?.notebooks)
@@ -45,12 +47,12 @@ const SingleNotebook = () => {
     }, [notebook])
 
     const handleSubmit = async e => {
-        e.preventDefault()
+        e?.preventDefault()
         const errors = []
-        if (title.length < 1 || title.length > 30) errors.push('Title must be at least 1 character, and less than 30')
-        if (description.length > 100) errors.push('Description must be less than 100 characters')
-        if (description.length < 1) errors.push("Must have a description")
-        if (errors.length) {
+        if (title?.length < 1 || title?.length > 30) errors.push('Title must be at least 1 character, and less than 30')
+        if (description?.length > 100) errors.push('Description must be less than 100 characters')
+        if (description?.length < 1) errors.push("Must have a description")
+        if (errors?.length) {
             setErrors(errors)
             return
         }
@@ -100,6 +102,14 @@ const SingleNotebook = () => {
     }, [note, content, noteId])
 
     useEffect(() => {
+        if(didMount.current) {
+            handleSubmit()
+        } else {
+            didMount.current = true;
+        }
+    }, [title, description])
+
+    useEffect(() => {
         if (selectedNote) {
             setNoteId(selectedNote.id || '')
             setContent(selectedNote.note || '')
@@ -122,7 +132,7 @@ const SingleNotebook = () => {
                     <input
                         spellCheck='false'
                         type="input"
-                        style={{ color: 'white', height: '100px', fontSize: '20px', border: 'none', focus: 'none', textDecoration: 'none', fontWeight: '600', border: 'none', outline: 'none', background: 'transparent' }}
+                        style={{ color: 'white', height: '100px', fontSize: '17px', border: 'none', focus: 'none', textDecoration: 'none', fontWeight: '600', border: 'none', outline: 'none', background: 'transparent' }}
                         value={title}
                         onChange={e => setTitle(e.target.value)}
                     />

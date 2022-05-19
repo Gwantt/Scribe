@@ -13,6 +13,11 @@ const Notebooks = () => {
     const [time, setTime] = useState(new Date());
     const arrayNotebooks = Object.values(notebooks)
     const [notes, setNotes] = useState([])
+    const [timeArray, setTimeArray] = useState([])
+    const [timeOfDay, setTimeOfDay] = useState("")
+    const [hour, setHour] = useState('')
+    const [day, setDay] = useState()
+
 
     useEffect(() => {
         const notes = arrayNotebooks[0]?.notes
@@ -44,7 +49,28 @@ const Notebooks = () => {
         setInterval(() => {
             setTime(new Date().toLocaleString());
         }, 1000);
+
     }, [])
+
+    useEffect(() => {
+        if(typeof(time) === 'string') {
+            const split = time.split(' ')
+            setTimeArray(split)
+            setHour(split[1].split(':')[0])
+            setDay(split[0])
+
+            if(timeArray[2] === 'AM') {
+                setTimeOfDay('Morning')
+                return
+            } else if (timeArray[2] === 'PM' && parseInt(hour) < 6) {
+                setTimeOfDay('Afternoon')
+                return
+            } else {
+                setTimeOfDay('Evening')
+                return
+            }
+        }
+    }, [time])
 
 
     return (
@@ -52,7 +78,7 @@ const Notebooks = () => {
             <img style={{objectFit:'contain', height:'70%', width:'50%', position:'absolute', transform:'translate(50%, -7%)'}} src="https://res.cloudinary.com/daeopbcax/image/upload/v1652913929/feather/pohsun_lkk9gv.png"/>
             <img style={{objectFit:'contain', width:'20%', height:'20%', position:'absolute', transform:'translate(90%, 99%)', zIndex:'100'}}src='https://res.cloudinary.com/daeopbcax/image/upload/v1652915475/feather/reverse_top_hand_o0loqk.png' />
             <img style={{objectFit:'contain', width:'20%', height:'20%', position:'absolute', transform:'translate(365%, 98.9%)', zIndex:'100'}}src='https://res.cloudinary.com/daeopbcax/image/upload/v1652914261/feather/top_hand_xrvqjx.png' />
-            <h3 style={{ color: 'white', marginLeft: '250px', marginBottom: '70px' }}>Good Evening, {user.username}</h3>
+            <h3 style={{ color: 'white', marginLeft: '250px', marginBottom: '70px' }}>Good {timeOfDay}, {user.username}</h3>
             <h3 style={{ marginLeft: '250px', color: 'white', position: 'absolute', right: '0', top: '0', display: 'flex', flexDirection: 'column' }}>{`${time}`}</h3>
             <div className="splash-wrapper">
                 <div className="notebooks">

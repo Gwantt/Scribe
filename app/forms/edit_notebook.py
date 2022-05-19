@@ -4,5 +4,5 @@ from wtforms.validators import DataRequired, Length
 
 
 class EditNotebookForm(FlaskForm):
-    title = StringField('title', validators=[DataRequired(), Length(max=30)])
-    description = StringField('description', validators=[DataRequired(), Length( max=100)])
+    title = StringField('title')
+    description = StringField('description')

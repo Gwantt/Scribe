@@ -21,15 +21,6 @@
     /* height: min-content; */
 }
 
-
-.navLink:hover {
-    background-color: #babac0;
-}
-
-/* .list:hover {
-    background-color: #babac0;
-} */
-
 .navLink {
     text-decoration: none;
 }
@@ -72,4 +63,23 @@ button {
 
 ::-webkit-scrollbar-button {
     display:none
+}
+
+
+
+.active {
+    color: white;
+}
+
+.sum {
+    color: #babac0;
+}
+
+details a {
+    color: white;
+    text-decoration: none;
+}
+
+details a:hover {
+    color:#babac0
 }

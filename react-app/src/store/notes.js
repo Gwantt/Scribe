@@ -102,6 +102,19 @@ export const deleteNoteThunk = id => async dispatch => {
     }
 }
 
+export const allUserNotes = id => async dispatch => {
+    const res = await fetch(`/api/notes/${id}/user`, {
+        headers: {
+            "Content-Type": 'application/json'
+        }
+    })
+
+    if(res.ok) {
+        const notes = await res.json()
+        dispatch(load(notes))
+    }
+}
+
 const notesReducer = (state = {}, action) => {
     switch (action.type) {
         case CREATE:
@@ -121,7 +134,6 @@ const notesReducer = (state = {}, action) => {
             }
         case LOAD:
             const allNotes = {};
-            console.log('action load -->',action.note)
             action.notes.notes.forEach(note => {
                 allNotes[note.id] = note;
             })

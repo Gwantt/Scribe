@@ -33,6 +33,7 @@
     height: 120px;
     margin: 2px;
     width: 100%;
+    overflow: auto;
 }
 
 .outerFormDiv {

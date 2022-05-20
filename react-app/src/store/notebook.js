@@ -3,7 +3,7 @@ const CREATE = 'notebooks/CREATE'
 const LOAD_ONE = 'notebooks/LOAD_ONE'
 const DELETE = 'notebooks/DELETE'
 const UPDATE = 'notebooks/UPDATE'
-
+const CLEAR = 'notebooks/CLEAR'
 
 const load = (notebooks) => ({
     type: LOAD,
@@ -29,6 +29,14 @@ const updateOne = notebook => ({
     type: UPDATE,
     notebook
 })
+
+const clear = () => ({
+    type: CLEAR
+})
+
+export const clearStoreThunk = () => async dispatch => {
+    dispatch(clear())
+}
 
 export const loadAllNotebooksThunk = (id) => async dispatch => {
     const res = await fetch(`/api/notebooks/${id}`, {
@@ -136,6 +144,8 @@ const notebookReducer = (state = {}, action) => {
             const updateState = { ...state };
             updateState[action.notebook.id] = action.notebook;
             return updateState
+        case CLEAR:
+            return {}
         default:
             return state
     }

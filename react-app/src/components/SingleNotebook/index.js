@@ -28,7 +28,6 @@ const SingleNotebook = () => {
     const [content, setContent] = useState()
     const [noteId, setNoteId] = useState()
 
-
     // need to figure out the reload for notebooks notes
     useEffect(() => {
         dispatch(notebookActions.loadOneThunk(id))
@@ -85,6 +84,7 @@ const SingleNotebook = () => {
 
     const handleNoteSubmit = async (e) => {
         e?.preventDefault()
+
         const notePayload = {
             title: note,
             note: content
@@ -176,12 +176,13 @@ const SingleNotebook = () => {
                             </div>
                         ))}
                     </div>
-
                 </div>
                     <div className="outerFormDiv" style={{marginLeft:'500px'}}>
                         <div className="innerFormDiv">
-                            {showNote && noteId && (
+                            <div>
 
+                            </div>
+                            {showNote && noteId && (
                                 <form onSubmit={handleNoteSubmit} className="noteForm">
                                     <input
                                         className="noteInput input"

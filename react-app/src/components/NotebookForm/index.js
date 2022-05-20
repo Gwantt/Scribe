@@ -51,7 +51,7 @@ const NotebookForm = ({ closeModal }) => {
             <form className="mainForm notebookform" onSubmit={handleSubmit}>
                 <ul className="errors">
                     {errors && errors.map((error, idx) => (
-                        <li key={idx}>{error}</li>
+                        <li key={idx} style={{color:'red', fontWeight:'bold', listStyle:'none', marginBottom:'10px'}}>{error}</li>
                     ))}
                 </ul>
                 <h1>Create A New Notebook</h1>

@@ -38,9 +38,9 @@ const LoginForm = () => {
       <div className='logWrapper'>
         <div className='logForm'>
           <form className='mainForm' onSubmit={onLogin}>
-            <div>
+            <div style={{marginBottom:'10px'}}>
               {errors.map((error, ind) => (
-                <div key={ind}>{error}</div>
+                <div key={ind} style={{color:'red', fontWeight:'bold', }}>{error}</div>
               ))}
             </div>
             <img src='https://res.cloudinary.com/daeopbcax/image/upload/v1652739383/feather/feather_cunzre.png' alt='logo'/>

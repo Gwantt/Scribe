@@ -176,6 +176,6 @@ h5 {
 }
 
 .daytonImg {
-    animation: daytonSlide 3s linear 1s;
+    animation: daytonSlide 3s ease-in-out;
     transform: translate(50%, -7%)
 }

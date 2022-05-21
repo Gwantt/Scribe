@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import { login } from '../../store/session';
 import './loginForm.css'
 import './feather.png'
-import {AiOutlineTeam} from 'react-icons/ai'
+import { AiOutlineTeam } from 'react-icons/ai'
 
 const LoginForm = () => {
   const [errors, setErrors] = useState([]);
@@ -37,20 +37,22 @@ const LoginForm = () => {
     <div className='bodyWrapper'>
       <div className='logWrapper'>
         <div className='logForm'>
-          <form className='mainForm' onSubmit={onLogin}>
-            <div style={{marginBottom:'10px'}}>
-              {errors.map((error, ind) => (
-                <div key={ind} style={{color:'red', fontWeight:'bold', }}>{error}</div>
-              ))}
-            </div>
-            <img src='https://res.cloudinary.com/daeopbcax/image/upload/v1652739383/feather/feather_cunzre.png' alt='logo'/>
+          <div style={{ marginBottom: '10px' }}>
+            {errors.map((error, ind) => (
+              <div key={ind} style={{ color: 'red', fontWeight: 'bold', }}>{error}</div>
+            ))}
+          </div>
+          <div className='mainForm'>
+            <img style={{ height: '20%' }} src='https://res.cloudinary.com/daeopbcax/image/upload/v1652739383/feather/feather_cunzre.png' alt='logo' />
             <h1>Scribe</h1>
-            <p style={{fontSize:'11px'}}>Keep track of whats important.</p>
+            <p style={{ fontSize: '11px' }}>Keep track of whats important.</p>
+          </div>
+          <div className='mainForm'>
+            <button className='demoButton' onClick={async () => await dispatch(login('demo@aa.io', 'password'))}><AiOutlineTeam /> Continue as Demo</button>
+          </div>
+          <form className='mainForm' onSubmit={onLogin}>
             <div>
-              <button className='demoButton'  onClick={async() => await dispatch(login('demo@aa.io', 'password'))}><AiOutlineTeam /> Continue as Demo</button>
-            </div>
-            <div>
-              <div style={{marginBottom: '6px', fontSize: '.75rem', color:'#ababab'}}>
+              <div style={{ marginBottom: '6px', fontSize: '.75rem', color: '#ababab' }}>
                 or
               </div>
             </div>

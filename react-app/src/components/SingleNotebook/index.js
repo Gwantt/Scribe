@@ -198,6 +198,7 @@ const SingleNotebook = () => {
                                         placeholder='start writing...'
                                         onChange={e => setContent(e.target.value)}
                                     />
+                                    {/* <button onClick={handleNoteSubmit}>submit</button> */}
                                 </form>
                             )}
                         </div>

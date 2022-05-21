@@ -101,13 +101,13 @@ const SingleNotebook = () => {
         }
     }, [note, content, noteId])
 
-    useEffect(() => {
-        if(didMount.current) {
-            handleSubmit()
-        } else {
-            didMount.current = true;
-        }
-    }, [title, description])
+    // useEffect(() => {
+    //     if(didMount.current) {
+    //         handleSubmit()
+    //     } else {
+    //         didMount.current = true;
+    //     }
+    // }, [title, description])
 
     useEffect(() => {
         if (selectedNote) {
@@ -140,7 +140,7 @@ const SingleNotebook = () => {
                     </br>
                     <input
                         spellCheck='false'
-                        style={{ color: 'white', border: 'none', width: '500px', background: 'transparent', outline: 'none' }}
+                        style={{ color: 'white', border: 'none', width: '300px', background: 'transparent', outline: 'none' }}
                         value={description}
                         onChange={e => setDescription(e.target.value)}
                     />

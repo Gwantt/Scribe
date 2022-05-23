@@ -33,7 +33,7 @@ const NavBar = () => {
             </li>
           </>
         )}
-        <li>
+        {/* <li>
           <details>
             <summary className='sum'>Notebooks</summary>
             <ul>
@@ -42,7 +42,7 @@ const NavBar = () => {
               ))}
             </ul>
           </details>
-        </li>
+        </li> */}
         <li className='list'>
           <LogoutButton />
         </li>

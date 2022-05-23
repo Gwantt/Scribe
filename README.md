@@ -24,7 +24,7 @@ Scribe is built on a React frontend with a Flask backend, using PostgreSQL as a 
 # Scribe Setup
 1. Clone this repository (https://github.com/Gwantt/Scribe)
 2. Install dependencies - `pipenv install --dev -r dev-requirements.txt && pipenv install -r requirements.txt`
-3. Crfeate a `.env` file based on the `.env.example` with proper settings required for development environment
+3. Create a `.env` file based on the `.env.example` with proper settings required for development environment
 4. Set up PostgreSQL user, password and database, make sure it matches with your `.env` file
 5. In the root directory in the terminal run `pipenv shell` then run the following commands
    - `flask db upgrade`

@@ -5,7 +5,8 @@ import * as notebookActions from '../../store/notebook'
 import * as notesAction from '../../store/notes'
 import { loadOneNoteThunk, deleteOneThunk } from "../../store/note";
 import './singlenote.css'
-import { AiFillCloseCircle } from 'react-icons/ai'
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic"
+import { CKEditor } from "@ckeditor/ckeditor5-react"
 
 const SingleNotebook = () => {
     const dispatch = useDispatch()
@@ -94,7 +95,7 @@ const SingleNotebook = () => {
     }
 
     useEffect(() => {
-        if(didMount.current) {
+        if (didMount.current) {
             handleNoteSubmit()
         } else {
             didMount.current = true;
@@ -148,14 +149,14 @@ const SingleNotebook = () => {
                         <button style={{ width: 'min-content' }}>Update</button>
                     )}
                 </form>
-                <button className='main' onClick={ async () => {
+                <button className='main' onClick={async () => {
                     await dispatch(notebookActions.deleteNotebookThunk(id))
                     history.push('/')
                 }}>Delete Notebook</button>
                 <button onClick={() => dispatch(notesAction.createNoteThunk(id, newNotePayload))}>New Note</button>
             </div>
             <>
-                <div className="secondMain" style={{marginTop:'200px', display:'block', position:'absolute', zIndex:'1000'}}>
+                <div className="secondMain" style={{ marginTop: '200px', display: 'block', position: 'absolute', zIndex: '1000' }}>
                     <div>
                         {notesArray && notesArray?.map(note => (
                             <div className="noteList" >
@@ -177,32 +178,43 @@ const SingleNotebook = () => {
                         ))}
                     </div>
                 </div>
-                    <div className="outerFormDiv" style={{marginLeft:'500px'}}>
-                        <div className="innerFormDiv">
-                            <div>
+                <div className="outerFormDiv" style={{ marginLeft: '500px' }}>
+                    <div className="innerFormDiv">
+                        <div>
 
-                            </div>
-                            {showNote && noteId && (
-                                <form onSubmit={handleNoteSubmit} className="noteForm">
-                                    <input
-                                        className="noteInput input"
-                                        style={{ border: 'none', outline: 'none', borderBottom: '1px solid #008F26' }}
-                                        value={note || ''}
-                                        placeholder='name'
-                                        onChange={e => setNote(e.target.value)}
-                                    />
-                                    <textarea
-                                        className="noteInput textarea"
-                                        value={content || ''}
-                                        style={{ border: 'none', outline: 'none', resize: 'none' }}
-                                        placeholder='start writing...'
-                                        onChange={e => setContent(e.target.value)}
-                                    />
-                                    {/* <button onClick={handleNoteSubmit}>submit</button> */}
-                                </form>
-                            )}
                         </div>
+                        {showNote && noteId && (
+                            <form onSubmit={handleNoteSubmit} className="noteForm">
+                                <input
+                                    className="noteInput input"
+                                    style={{ border: 'none', outline: 'none', borderBottom: '1px solid #008F26' }}
+                                    value={note || ''}
+                                    placeholder='name'
+                                    onChange={e => setNote(e.target.value)}
+                                />
+                                <div className="editor">
+                                    <CKEditor
+                                        style={{backgroundColor:'transparent'}}
+                                        editor={ClassicEditor}
+                                        data={content || ''}
+                                        onChange={(event, editor) => {
+                                            const data = editor.getData()
+                                            setContent(data)
+                                        }}
+                                    />
+                                </div>
+                                {/* <textarea
+                                    className="noteInput textarea"
+                                    value={content || ''}
+                                    style={{ border: 'none', outline: 'none', resize: 'none' }}
+                                    placeholder='start writing...'
+                                    onChange={e => setContent(e.target.value)}
+                                /> */}
+                                {/* <button onClick={handleNoteSubmit}>submit</button> */}
+                            </form>
+                        )}
                     </div>
+                </div>
             </>
         </div>
     )

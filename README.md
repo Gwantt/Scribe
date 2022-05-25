@@ -1,6 +1,6 @@
 # Overview
 
-Scribe is a note taking app based off of Evernote. It allows you to to create notes/notebooks and write down anything you wish in your notes.
+[Scribe](https://scribe-capstone.herokuapp.com/) is a note taking app based off of Evernote. It allows you to to create notes/notebooks and write down anything you wish in your notes.
 
 # Application Architecture
 

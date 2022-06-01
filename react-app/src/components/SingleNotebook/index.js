@@ -5,8 +5,7 @@ import * as notebookActions from '../../store/notebook'
 import * as notesAction from '../../store/notes'
 import { loadOneNoteThunk, deleteOneThunk } from "../../store/note";
 import './singlenote.css'
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic"
-import { CKEditor } from "@ckeditor/ckeditor5-react"
+import { EditorState, ContentState, convertFromHTML, Editor } from 'draft-js'
 
 const SingleNotebook = () => {
     const dispatch = useDispatch()
@@ -28,6 +27,17 @@ const SingleNotebook = () => {
     const [note, setNote] = useState()
     const [content, setContent] = useState()
     const [noteId, setNoteId] = useState()
+    const [editorState, setEditorState] = useState(EditorState.createWithContent(ContentState.createFromBlockArray(convertFromHTML(content ? content : ''))))
+
+    const onEditorStateChange = (editorState) => {
+        setEditorState(editorState)
+    }
+
+    useEffect(() => {
+        setEditorState(EditorState.createWithContent(ContentState.createFromBlockArray(
+            convertFromHTML(note ? content : '')
+        )))
+    }, [noteId])
 
     // need to figure out the reload for notebooks notes
     useEffect(() => {
@@ -100,7 +110,7 @@ const SingleNotebook = () => {
         } else {
             didMount.current = true;
         }
-    }, [note, content, noteId])
+    }, [note, content, noteId, editorState])
 
     // useEffect(() => {
     //     if(didMount.current) {
@@ -123,6 +133,11 @@ const SingleNotebook = () => {
     }, [selectedNote])
     console.log(notes, 'notes from state')
     console.log(notesArray, ' <-- notesArray ')
+
+    // CKEditor.replace('editor1', {
+    //     uiColor:''
+    // })
+
     return (
         <div className="notebookNav">
             <div className="notebookformdiv" style={{ position: 'absolute', top: '0' }}>
@@ -192,15 +207,15 @@ const SingleNotebook = () => {
                                     placeholder='name'
                                     onChange={e => setNote(e.target.value)}
                                 />
-                                <div className="editor">
-                                    <CKEditor
-                                        style={{backgroundColor:'transparent'}}
-                                        editor={ClassicEditor}
-                                        data={content || ''}
-                                        onChange={(event, editor) => {
-                                            const data = editor.getData()
-                                            setContent(data)
-                                        }}
+                                <div className="editor" style={{color:'white'}}>
+                                    <Editor
+                                        value={content}
+                                        editorState={editorState}
+                                        onChange={editorState => {
+                                            setEditorState(editorState)
+                                            handleNoteSubmit()
+                                        }
+                                    }
                                     />
                                 </div>
                                 {/* <textarea

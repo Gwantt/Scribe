@@ -5,15 +5,16 @@ import * as notebookActions from '../../store/notebook'
 import * as notesAction from '../../store/notes'
 import { loadOneNoteThunk, deleteOneThunk } from "../../store/note";
 import './singlenote.css'
-import { EditorState, ContentState, convertFromHTML, Editor } from 'draft-js'
+import { Editor } from "react-draft-wysiwyg";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import { EditorState, ContentState, convertFromHTML, convertToRaw, SelectionState, toHtml } from 'draft-js'
+import draftToHtml from 'draftjs-to-html';
+import RichTextEditor from 'react-rte';
 
 const SingleNotebook = () => {
     const dispatch = useDispatch()
     const history = useHistory()
     const didMount = useRef(false)
-
-    // id of the notebook 1
-
     const { id } = useParams()
     const user = useSelector(state => state?.session?.user)
     const notebook = useSelector(state => state?.notebooks)
@@ -27,17 +28,36 @@ const SingleNotebook = () => {
     const [note, setNote] = useState()
     const [content, setContent] = useState()
     const [noteId, setNoteId] = useState()
-    const [editorState, setEditorState] = useState(EditorState.createWithContent(ContentState.createFromBlockArray(convertFromHTML(content ? content : ''))))
+    const [editorState, setEditorState] = useState(RichTextEditor.createEmptyValue())
 
-    const onEditorStateChange = (editorState) => {
+    const onEditorStateChange = editorState => {
+        moveSelectionToEnd(editorState)
         setEditorState(editorState)
+        setContent(draftToHtml(convertToRaw(editorState.getCurrentContent())))
+        // if (toHtml(editorState) === content) return
+    }
+
+    const moveSelectionToEnd = editorState => {
+        const content = editorState.getCurrentContent();
+        const blockMap = content.getBlockMap();
+
+        const key = blockMap.last().getKey();
+        const length = blockMap.last().getLength();
+
+        const selection = new SelectionState({
+            anchorKey: key,
+            achorOffset: length,
+            focusKey: key,
+            focusOffset: length
+        })
+        return EditorState.forceSelection(editorState, selection)
     }
 
     useEffect(() => {
         setEditorState(EditorState.createWithContent(ContentState.createFromBlockArray(
-            convertFromHTML(note ? content : '')
+            convertFromHTML(content ? content : '')
         )))
-    }, [noteId])
+    }, [noteId, content])
 
     // need to figure out the reload for notebooks notes
     useEffect(() => {
@@ -75,6 +95,7 @@ const SingleNotebook = () => {
         setErrors([])
         dispatch(notebookActions.updateNotebookThunk(id, payload))
     }
+
     useEffect(() => {
 
         if (title !== notebook[id]?.title || description !== notebook[id]?.description) {
@@ -83,6 +104,7 @@ const SingleNotebook = () => {
             setShowEdit(false)
         }
     }, [title, description])
+
     let newNotePayload;
     if (user) {
         newNotePayload = {
@@ -98,13 +120,14 @@ const SingleNotebook = () => {
 
         const notePayload = {
             title: note,
-            note: content
+            note: draftToHtml(convertToRaw(editorState.getCurrentContent()))
         }
 
         dispatch(notesAction.updateNote(notePayload, noteId))
     }
 
     useEffect(() => {
+        console.log('Autosaving')
         if (didMount.current) {
             handleNoteSubmit()
         } else {
@@ -112,8 +135,9 @@ const SingleNotebook = () => {
         }
     }, [note, content, noteId, editorState])
 
+    // ? Causing bugs
     // useEffect(() => {
-    //     if(didMount.current) {
+    //     if (didMount.current) {
     //         handleSubmit()
     //     } else {
     //         didMount.current = true;
@@ -131,12 +155,6 @@ const SingleNotebook = () => {
             setNote(null)
         }
     }, [selectedNote])
-    console.log(notes, 'notes from state')
-    console.log(notesArray, ' <-- notesArray ')
-
-    // CKEditor.replace('editor1', {
-    //     uiColor:''
-    // })
 
     return (
         <div className="notebookNav">
@@ -207,24 +225,33 @@ const SingleNotebook = () => {
                                     placeholder='name'
                                     onChange={e => setNote(e.target.value)}
                                 />
-                                <div className="editor" style={{color:'white'}}>
-                                    <Editor
-                                        value={content}
-                                        editorState={editorState}
-                                        onChange={editorState => {
-                                            setEditorState(editorState)
-                                            handleNoteSubmit()
-                                        }
-                                    }
-                                    />
-                                </div>
-                                {/* <textarea
+                                {/* almost works but showing up before the input  */}
+                                {/* <Editor
+                                    editorState={editorState}
+                                    wrapperClassName="wrapper-class"
+                                    editorClassName="editor-class"
+                                    toolbarClassName="toolbar-class"
+                                    onEditorStateChange={editorState => {
+                                        setEditorState(editorState)
+                                        setContent(draftToHtml(convertToRaw(editorState.getCurrentContent())))
+                                        moveSelectionToEnd(editorState)
+                                    }}
+                                /> */}
+                                {/* <Editor
+                                    editorState={editorState}
+                                    toolbarClassName="toolbarClassName"
+                                    wrapperClassName="wrapperClassName"
+                                    editorClassName="editorClassName"
+                                    onEditorStateChange={onEditorStateChange}
+                                /> */}
+
+                                <textarea
                                     className="noteInput textarea"
                                     value={content || ''}
                                     style={{ border: 'none', outline: 'none', resize: 'none' }}
                                     placeholder='start writing...'
                                     onChange={e => setContent(e.target.value)}
-                                /> */}
+                                />
                                 {/* <button onClick={handleNoteSubmit}>submit</button> */}
                             </form>
                         )}

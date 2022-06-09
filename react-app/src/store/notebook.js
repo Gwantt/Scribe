@@ -137,7 +137,6 @@ const notebookReducer = (state = {}, action) => {
             return {...state, ...singleBook}
         case DELETE:
             const deleteState = {...state}
-            console.log(deleteState[action.id])
             delete deleteState[action.id]
             return deleteState
         case UPDATE:

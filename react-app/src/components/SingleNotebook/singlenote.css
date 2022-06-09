@@ -1,112 +1,116 @@
 .main {
-    margin-left: 250px;
+  margin-left: 250px;
+}
+
+body {
+  overflow-y: hidden;
 }
 
 .notebookformdiv {
-    height: 100%;
-    background-color: #1A1A1A;
-    width: min-content;
+  height: 100%;
+  background-color: #1A1A1A;
+  width: min-content;
 }
 
 .notebookNav {
-    height: 100%;
-    width: 243px;
-    margin-left: 0px;
+  height: 100%;
+  width: 243px;
+  margin-left: 0px;
 }
 
 .secondMain {
-    width: 243px;
-    margin-left: 250px;
-    height: 600px;
-    overflow-y: scroll;
-    overflow-x: hidden;
+  width: 243px;
+  margin-left: 250px;
+  height: 600px;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .note {
-    cursor: pointer;
-    display: block;
-    font-size: 13px;
-    border-top: 1px solid white;
-    overflow: hidden;
-    padding: 16px 26px;
-    position: relative;
-    height: 120px;
-    margin: 2px;
-    width: 100%;
-    overflow: auto;
+  cursor: pointer;
+  display: block;
+  font-size: 13px;
+  border-top: 1px solid white;
+  overflow: hidden;
+  padding: 16px 26px;
+  position: relative;
+  height: 120px;
+  margin: 2px;
+  width: 100%;
+  overflow: auto;
 }
 
 .outerFormDiv {
-    margin-left: 270px;
-    position: absolute;
-    top: 0;
-    background-color: #262626;
-    height: 100%;
-    width: 100%;
+  margin-left: 270px;
+  position: absolute;
+  top: 0;
+  background-color: #262626;
+  height: 100%;
+  width: 100%;
 }
 
 .noteInput {
-    background-color: transparent;
-    border: none;
-    width: 80%;
+  background-color: transparent;
+  border: none;
+  width: 80%;
 }
 
 .noteForm {
-    display: flex;
-    flex-direction: column;
-    width: 70%;
+  display: flex;
+  flex-direction: column;
+  width: 70%;
 }
 
 .textarea {
-    height: 700px;
-    color: white;
-    font-size: 21px;
-    font-weight: 400;
-    margin: 10px;
+  height: 700px;
+  color: white;
+  font-size: 21px;
+  font-weight: 400;
+  margin: 10px;
 }
 
 .textarea:focus {
-    border: none;
+  border: none;
 }
 
 .input {
-    height: 50px;
-    margin: 10px;
-    font-size: 30px;
-    font-weight: bold;
-    color: white
+  height: 50px;
+  margin: 10px;
+  font-size: 30px;
+  font-weight: bold;
+  color: white
 }
 
 ::-webkit-scrollbar {
-    width: 8px;
-    height:4px;
-    background-color:#fff;
+  width: 8px;
+  height: 4px;
+  background-color: #fff;
 }
 
 ::-webkit-scrollbar-track {
-    background-color: #1A1A1A;
+  background-color: #1A1A1A ;
 }
 
 ::-webkit-scrollbar-track:hover {
-    background-color: #1A1A1A;
+  background-color: #1A1A1A;
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: #babac0;
-    border-radius: 16px;
-    border:none;
+  background-color: #babac0;
+  border-radius: 16px;
+  border: none;
 }
 
 .secondMain:hover::-webkit-scrollbar-thumb {
-    background-color:#a0a0a5;
-    border:4px solid #f4f4f4
+  background-color: #a0a0a5;
+  border: 4px solid #f4f4f4
 }
 
 ::-webkit-scrollbar-corner {
-    background-image: url(http://i.stack.imgur.com/FguQn.png?corner.png);
-    background-repeat: no-repeat;
+  background-image: url(http://i.stack.imgur.com/FguQn.png?corner.png);
+  background-repeat: no-repeat;
 }
 
 ::-webkit-scrollbar:start {
-    display: none;
+  display: none;
 }

@@ -23,6 +23,8 @@ def update_note(id):
 
         note.note = data['note']
         note.title = data['title']
+        print('\n hello')
+        print(data['note'],'\n aslkdfj;alskdjf;laksdjf')
 
         db.session.commit()
 

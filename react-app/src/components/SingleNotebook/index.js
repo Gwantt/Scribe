@@ -5,15 +5,16 @@ import * as notebookActions from '../../store/notebook'
 import * as notesAction from '../../store/notes'
 import { loadOneNoteThunk, deleteOneThunk } from "../../store/note";
 import './singlenote.css'
-import { AiFillCloseCircle } from 'react-icons/ai'
+import { Editor } from "react-draft-wysiwyg";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import { EditorState, ContentState, convertFromHTML, convertToRaw, SelectionState, toHtml } from 'draft-js'
+import draftToHtml from 'draftjs-to-html';
+import RichTextEditor from 'react-rte';
 
 const SingleNotebook = () => {
     const dispatch = useDispatch()
     const history = useHistory()
     const didMount = useRef(false)
-
-    // id of the notebook 1
-
     const { id } = useParams()
     const user = useSelector(state => state?.session?.user)
     const notebook = useSelector(state => state?.notebooks)
@@ -27,6 +28,36 @@ const SingleNotebook = () => {
     const [note, setNote] = useState()
     const [content, setContent] = useState()
     const [noteId, setNoteId] = useState()
+    const [editorState, setEditorState] = useState(RichTextEditor.createEmptyValue())
+
+    const onEditorStateChange = editorState => {
+        moveSelectionToEnd(editorState)
+        setEditorState(editorState)
+        setContent(draftToHtml(convertToRaw(editorState.getCurrentContent())))
+        // if (toHtml(editorState) === content) return
+    }
+
+    const moveSelectionToEnd = editorState => {
+        const content = editorState.getCurrentContent();
+        const blockMap = content.getBlockMap();
+
+        const key = blockMap.last().getKey();
+        const length = blockMap.last().getLength();
+
+        const selection = new SelectionState({
+            anchorKey: key,
+            achorOffset: length,
+            focusKey: key,
+            focusOffset: length
+        })
+        return EditorState.forceSelection(editorState, selection)
+    }
+
+    useEffect(() => {
+        setEditorState(EditorState.createWithContent(ContentState.createFromBlockArray(
+            convertFromHTML(content ? content : '')
+        )))
+    }, [noteId, content])
 
     // need to figure out the reload for notebooks notes
     useEffect(() => {
@@ -64,6 +95,7 @@ const SingleNotebook = () => {
         setErrors([])
         dispatch(notebookActions.updateNotebookThunk(id, payload))
     }
+
     useEffect(() => {
 
         if (title !== notebook[id]?.title || description !== notebook[id]?.description) {
@@ -72,6 +104,7 @@ const SingleNotebook = () => {
             setShowEdit(false)
         }
     }, [title, description])
+
     let newNotePayload;
     if (user) {
         newNotePayload = {
@@ -87,22 +120,24 @@ const SingleNotebook = () => {
 
         const notePayload = {
             title: note,
-            note: content
+            note: draftToHtml(convertToRaw(editorState.getCurrentContent()))
         }
 
         dispatch(notesAction.updateNote(notePayload, noteId))
     }
 
     useEffect(() => {
-        if(didMount.current) {
+        console.log('Autosaving')
+        if (didMount.current) {
             handleNoteSubmit()
         } else {
             didMount.current = true;
         }
-    }, [note, content, noteId])
+    }, [note, content, noteId, editorState])
 
+    // ? Causing bugs
     // useEffect(() => {
-    //     if(didMount.current) {
+    //     if (didMount.current) {
     //         handleSubmit()
     //     } else {
     //         didMount.current = true;
@@ -120,8 +155,7 @@ const SingleNotebook = () => {
             setNote(null)
         }
     }, [selectedNote])
-    console.log(notes, 'notes from state')
-    console.log(notesArray, ' <-- notesArray ')
+
     return (
         <div className="notebookNav">
             <div className="notebookformdiv" style={{ position: 'absolute', top: '0' }}>
@@ -148,14 +182,14 @@ const SingleNotebook = () => {
                         <button style={{ width: 'min-content' }}>Update</button>
                     )}
                 </form>
-                <button className='main' onClick={ async () => {
+                <button className='main' onClick={async () => {
                     await dispatch(notebookActions.deleteNotebookThunk(id))
                     history.push('/')
                 }}>Delete Notebook</button>
                 <button onClick={() => dispatch(notesAction.createNoteThunk(id, newNotePayload))}>New Note</button>
             </div>
             <>
-                <div className="secondMain" style={{marginTop:'200px', display:'block', position:'absolute', zIndex:'1000'}}>
+                <div className="secondMain" style={{ marginTop: '200px', display: 'block', position: 'absolute', zIndex: '1000' }}>
                     <div>
                         {notesArray && notesArray?.map(note => (
                             <div className="noteList" >
@@ -177,32 +211,52 @@ const SingleNotebook = () => {
                         ))}
                     </div>
                 </div>
-                    <div className="outerFormDiv" style={{marginLeft:'500px'}}>
-                        <div className="innerFormDiv">
-                            <div>
+                <div className="outerFormDiv" style={{ marginLeft: '500px' }}>
+                    <div className="innerFormDiv">
+                        <div>
 
-                            </div>
-                            {showNote && noteId && (
-                                <form onSubmit={handleNoteSubmit} className="noteForm">
-                                    <input
-                                        className="noteInput input"
-                                        style={{ border: 'none', outline: 'none', borderBottom: '1px solid #008F26' }}
-                                        value={note || ''}
-                                        placeholder='name'
-                                        onChange={e => setNote(e.target.value)}
-                                    />
-                                    <textarea
-                                        className="noteInput textarea"
-                                        value={content || ''}
-                                        style={{ border: 'none', outline: 'none', resize: 'none' }}
-                                        placeholder='start writing...'
-                                        onChange={e => setContent(e.target.value)}
-                                    />
-                                    {/* <button onClick={handleNoteSubmit}>submit</button> */}
-                                </form>
-                            )}
                         </div>
+                        {showNote && noteId && (
+                            <form onSubmit={handleNoteSubmit} className="noteForm">
+                                <input
+                                    className="noteInput input"
+                                    style={{ border: 'none', outline: 'none', borderBottom: '1px solid #008F26' }}
+                                    value={note || ''}
+                                    placeholder='name'
+                                    onChange={e => setNote(e.target.value)}
+                                />
+                                {/* almost works but showing up before the input  */}
+                                {/* <Editor
+                                    editorState={editorState}
+                                    wrapperClassName="wrapper-class"
+                                    editorClassName="editor-class"
+                                    toolbarClassName="toolbar-class"
+                                    onEditorStateChange={editorState => {
+                                        setEditorState(editorState)
+                                        setContent(draftToHtml(convertToRaw(editorState.getCurrentContent())))
+                                        moveSelectionToEnd(editorState)
+                                    }}
+                                /> */}
+                                {/* <Editor
+                                    editorState={editorState}
+                                    toolbarClassName="toolbarClassName"
+                                    wrapperClassName="wrapperClassName"
+                                    editorClassName="editorClassName"
+                                    onEditorStateChange={onEditorStateChange}
+                                /> */}
+
+                                <textarea
+                                    className="noteInput textarea"
+                                    value={content || ''}
+                                    style={{ border: 'none', outline: 'none', resize: 'none' }}
+                                    placeholder='start writing...'
+                                    onChange={e => setContent(e.target.value)}
+                                />
+                                {/* <button onClick={handleNoteSubmit}>submit</button> */}
+                            </form>
+                        )}
                     </div>
+                </div>
             </>
         </div>
     )

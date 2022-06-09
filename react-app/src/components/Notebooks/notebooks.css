@@ -27,6 +27,7 @@ h5 {
     grid-auto-rows: auto;
     grid-template-columns: repeat(3, minmax(0,1fr));
     min-width: 288px;
+    margin-left: 250px;
     position: relative;
     z-index: 1 !important;
     /* z-index: 90; */
@@ -46,7 +47,6 @@ h5 {
     grid-column: span 2;
     border-radius: 10px;
     overflow-x: scroll;
-    margin-left: 250px;
     /* box-shadow: inset -1em 0em 10px rgba(245, 66, 66, 0.6); */
     /* position: relative; */
     z-index: 2 !important;
@@ -54,14 +54,12 @@ h5 {
 
 .dummy {
     box-shadow: inset 0em 0em 8px rgb(0, 0, 0);
-    position: absolute;
     top: 0;
+    left: 0;
+    position: fixed;
+    width: 100%;
     border-radius: 10px;
-    width: 30px;
-    width: 1011.33px;
-    height: 30vh;
-    margin-left: -17px;
-    /* fill-opacity: transparent; */
+    height: 100%;
     pointer-events: none;
     background-repeat: no-repeat;
 }
@@ -146,11 +144,14 @@ h5 {
     justify-content: flex-start;
     grid-column: span 1;
     min-height: 30vh;
-    min-width: 280px;
-    margin-left: 250px;
+    max-height: 30vh;
     border-radius: 5px;
-    padding: 10px;
+    padding-left: 10px;
     background-color: #1A1A1A;
+}
+
+.quoteDiv :is(p, h3, h4) {
+    padding-left: 10px;
 }
 
 .notes {
@@ -161,21 +162,18 @@ h5 {
     overflow-x: scroll;
 }
 
-/* .quoteWrapper {
-    margin-left: 250px;
-} */
 
 @keyframes daytonSlide {
     from {
-        transform: translate(50%, 30%);
+        transform: translate(120%, 30%);
     }
 
     to {
-        transform: translate(50%, -7%)
+        transform: translate(120%, 2%)
     }
 }
 
 .daytonImg {
     animation: daytonSlide 3s ease-in-out;
-    transform: translate(50%, -7%)
+    transform: translate(120%, 2%)
 }

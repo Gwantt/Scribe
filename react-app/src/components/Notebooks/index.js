@@ -34,10 +34,13 @@ const Notebooks = () => {
     }, [dispatch, user.id])
 
     const fetchQuote = async () => {
-        const res = await fetch('https://api.quotable.io/random')
-        const data = await res.json()
-        console.log(data)
-        setQuotes(data)
+        try {
+            const res = await fetch('https://api.quotable.io/random')
+            const data = await res.json()
+            setQuotes(data)
+        } catch (e) {
+            setQuotes("We have run out of quotes 😔")
+        }
     }
 
     useEffect(() => {
@@ -75,13 +78,13 @@ const Notebooks = () => {
 
     return (
         <>
-            <img style={{objectFit:'contain', height:'70%', width:'50%', position:'absolute'}} className='daytonImg' src="https://res.cloudinary.com/daeopbcax/image/upload/v1652913929/feather/pohsun_lkk9gv.png"/>
-            <img style={{objectFit:'contain', width:'20%', height:'20%', position:'absolute', transform:'translate(90%, 99%)', zIndex:'100'}}src='https://res.cloudinary.com/daeopbcax/image/upload/v1652915475/feather/reverse_top_hand_o0loqk.png' />
-            <img style={{objectFit:'contain', width:'20%', height:'20%', position:'absolute', transform:'translate(365%, 98.9%)', zIndex:'100'}}src='https://res.cloudinary.com/daeopbcax/image/upload/v1652914261/feather/top_hand_xrvqjx.png' />
+            <img style={{objectFit:'contain', height:'33rem', width:'30%', position:'fixed'}} className='daytonImg' src="https://res.cloudinary.com/daeopbcax/image/upload/v1652913929/feather/pohsun_lkk9gv.png"/>
+            <img style={{objectFit:'contain', width:'20%', height:'min-content', position:'fixed', transform:'translate(90%, 104%)', zIndex:'100'}}src='https://res.cloudinary.com/daeopbcax/image/upload/v1652915475/feather/reverse_top_hand_o0loqk.png' />
+            <img style={{objectFit:'contain', width:'20%', height:'min-content', position:'fixed', transform:'translate(387%, 104%)', zIndex:'100'}}src='https://res.cloudinary.com/daeopbcax/image/upload/v1652914261/feather/top_hand_xrvqjx.png' />
             <h3 style={{ color: 'white', marginLeft: '250px', marginBottom: '70px' }}>Hello {user.username} </h3>
-            <h3 style={{ marginLeft: '250px', color: 'white', position: 'absolute', right: '0', top: '0', display: 'flex', flexDirection: 'column' }}>{`${time}`}</h3>
+            <h3 style={{ marginLeft: '250px', color: 'white', position: 'absolute', right: '0', top: '0', display: 'flex', flexDirection: 'column', padding:'3px' }}>{`${time}`}</h3>
             <div className="splash-wrapper">
-                <div className="notebooks">
+                <div className="notebooks" style={{overflowY:'hidden'}}>
                     <h5 style={{ color: 'white' }}>Notebooks</h5>
                     <div className="innerDiv">
                         {arrayNotebooks.map((notebook, idx) => (
@@ -110,13 +113,13 @@ const Notebooks = () => {
                     </div>
                 </div>
                 <div className="quoteWrapper">
-                    <div className="quoteDiv">
+                    <div className="quoteDiv" style={{ overflowY:'scroll', maxHeight:'30vh'}}>
                         <h3 style={{color:'white'}}>Random Famous Quote Of Wisdom</h3>
-                        <p style={{ color: 'white', fontWeight: '600' }}>{quotes?.content}</p>
+                        <p style={{ color: 'white', fontWeight: '600' }}>{quotes?.content ? quotes.content : quotes}</p>
                         <h4 style={{color:'#babac0'}}>{quotes?.author}</h4>
                     </div>
                 </div>
-                <div className='notes'>
+                <div className='notes' style={{overflowY:'hidden'}}>
                     <h5 style={{ color: 'white' }}>Suggested Notes</h5>
                     <div className="innerDiv">
                         {notes?.map(note => (

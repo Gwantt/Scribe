@@ -42,14 +42,12 @@ export const createNoteThunk = (id, payload) => async dispatch => {
 
 
     if(res.ok) {
-        console.log('res ok')
         const newNote = await res.json()
         dispatch(create(newNote))
     }
 }
 
 export const loadNotesThunk = id => async dispatch => {
-    console.log('in the notes loading thunk')
     const res = await fetch(`/api/notebooks/${id}/notes`, {
         headers: {
             'Content-Type': 'application/json'
@@ -58,7 +56,6 @@ export const loadNotesThunk = id => async dispatch => {
     // console.log()
     if(res.ok) {
         const notes = await res.json()
-        console.log(notes)
         dispatch(load(notes))
     }
 }
@@ -77,7 +74,7 @@ export const loadNotesThunk = id => async dispatch => {
 // }
 
 export const updateNote = (payload, id) => async dispatch => {
-    console.log('payload & id -->, ', payload, id)
+    console.log('updating note', payload)
     const res = await fetch(`/api/notes/${id}/update`, {
         method: 'PATCH',
         headers: {
@@ -88,6 +85,7 @@ export const updateNote = (payload, id) => async dispatch => {
 
     if(res.ok) {
         const updatedNote = await res.json()
+        console.log(res, 'Note Updated :D')
         dispatch(update(updatedNote))
     }
 }

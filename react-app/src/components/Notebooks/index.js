@@ -84,7 +84,7 @@ const Notebooks = () => {
             <h3 style={{ color: 'white', marginLeft: '250px', marginBottom: '70px' }}>Hello {user.username} </h3>
             <h3 style={{ marginLeft: '250px', color: 'white', position: 'absolute', right: '0', top: '0', display: 'flex', flexDirection: 'column', padding:'3px' }}>{`${time}`}</h3>
             <div className="splash-wrapper">
-                <div className="notebooks" style={{overflowY:'hidden'}}>
+                <div className="notebooks" style={{overflowY:'auto', overflowX:'auto '}}>
                     <h5 style={{ color: 'white' }}>Notebooks</h5>
                     <div className="innerDiv">
                         {arrayNotebooks.map((notebook, idx) => (

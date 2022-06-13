@@ -79,12 +79,12 @@ const Notebooks = () => {
     return (
         <>
             <img style={{objectFit:'contain', height:'33rem', width:'30%', position:'fixed'}} className='daytonImg' src="https://res.cloudinary.com/daeopbcax/image/upload/v1652913929/feather/pohsun_lkk9gv.png"/>
-            <img style={{objectFit:'contain', width:'20%', height:'min-content', position:'fixed', transform:'translate(90%, 104%)', zIndex:'100'}}src='https://res.cloudinary.com/daeopbcax/image/upload/v1652915475/feather/reverse_top_hand_o0loqk.png' />
-            <img style={{objectFit:'contain', width:'20%', height:'min-content', position:'fixed', transform:'translate(387%, 104%)', zIndex:'100'}}src='https://res.cloudinary.com/daeopbcax/image/upload/v1652914261/feather/top_hand_xrvqjx.png' />
+            <img style={{objectFit:'contain', width:'20%', height:'min-content', position:'fixed', transform:'translate(90%, 104%)', zIndex:'100'}}src='https://res.cloudinary.com/daeopbcax/image/upload/v1654812941/feather/reverse_top_hand_mvak06.png'/>
+            <img style={{objectFit:'contain', width:'20%', height:'min-content', position:'fixed', transform:'translate(387%, 104%)', zIndex:'100'}}src='https://res.cloudinary.com/daeopbcax/image/upload/v1654812941/feather/top_hand_c954zk.png'/>
             <h3 style={{ color: 'white', marginLeft: '250px', marginBottom: '70px' }}>Hello {user.username} </h3>
             <h3 style={{ marginLeft: '250px', color: 'white', position: 'absolute', right: '0', top: '0', display: 'flex', flexDirection: 'column', padding:'3px' }}>{`${time}`}</h3>
             <div className="splash-wrapper">
-                <div className="notebooks" style={{overflowY:'hidden'}}>
+                <div className="notebooks" style={{overflowY:'auto', overflowX:'auto '}}>
                     <h5 style={{ color: 'white' }}>Notebooks</h5>
                     <div className="innerDiv">
                         {arrayNotebooks.map((notebook, idx) => (

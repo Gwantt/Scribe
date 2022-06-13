@@ -120,14 +120,13 @@ const SingleNotebook = () => {
 
         const notePayload = {
             title: note,
-            note: draftToHtml(convertToRaw(editorState.getCurrentContent()))
+            note: content
         }
 
         dispatch(notesAction.updateNote(notePayload, noteId))
     }
 
     useEffect(() => {
-        console.log('Autosaving')
         if (didMount.current) {
             handleNoteSubmit()
         } else {

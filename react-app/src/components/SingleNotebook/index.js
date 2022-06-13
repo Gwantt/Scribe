@@ -127,7 +127,6 @@ const SingleNotebook = () => {
     }
 
     useEffect(() => {
-        console.log('Autosaving')
         if (didMount.current) {
             handleNoteSubmit()
         } else {
